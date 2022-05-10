@@ -1,0 +1,28 @@
+{
+  "name": "word-editor",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@lowfront/firebase-adapter": "^0.0.6",
+    "@material-tailwind/react": "0.3.4",
+    "firebase": "^9.8.1",
+    "framer-motion": "^6.3.3",
+    "next": "12.1.6",
+    "next-auth": "^4.3.4",
+    "react": "18.1.0",
+    "react-dom": "18.1.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "eslint": "8.15.0",
+    "eslint-config-next": "12.1.6",
+    "postcss": "^8.4.13",
+    "tailwindcss": "^3.0.24"
+  }
+}

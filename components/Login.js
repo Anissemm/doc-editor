@@ -56,7 +56,7 @@ const Login = ({ transition }) => {
                 <motion.span variants={iconVariants} class="material-icons pl-2 lg:pl-5 md:text-4xl lg:text-8xl gray-500">description</motion.span>
             </motion.div>
             <motion.div initial='hidden' animate='visible' className="font-['Poppins'] my-10 sm:my-0 lg:text-5xl font-semibold flex flex-col justify-center items-center text-gray-400">
-                <motion.h2 variants={loginVariants} custom={0}>Connect with:</motion.h2>
+                <h2 className="sr-only" variants={loginVariants} custom={0}>Sign in</h2>
                 <MotionButton
                     variants={loginVariants}
                     custom={1}
@@ -67,8 +67,9 @@ const Login = ({ transition }) => {
                     iconOnly={false}
                     ripple="light"
                     className='mt-3 bg-gray-700 shadow-sm'
-                    aria-label='Connect with Google'
+                    aria-label='Sing in with Google'
                 >
+                    Sign in with 
                     <GoogleSvg className="w-24 h-9" />
                 </MotionButton>
             </motion.div>

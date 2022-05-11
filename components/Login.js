@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import Button from "@material-tailwind/react/Button"
-import Icon from "@material-tailwind/react/Icon"
+import { signIn } from "next-auth/react"
 import GoogleSvg from '../assets/svg/google'
 
 const MotionButton = motion(Button)
@@ -51,7 +51,7 @@ const loginVariants = {
 const Login = ({ transition }) => {
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-24 sm:p-0 sm:grid sm:grid-cols-2 bg-zinc-900 sm:h-auto h-screen sm:grid-rows-1">
-            <motion.div initial='hidden' animate='visible' className="font-['Poppins'] my-10 sm:my-0 text-3xl lg:text-5xl font-semibold text-gray-400 flex items-center justify-center">
+            <motion.div initial='hidden' animate='visible' className="font-['Poppins'] my-10 sm:my-0 text-3xl lg:text-5xl font-semibold text-gray-500 flex items-center justify-center">
                 <motion.h1 className="relative z-1 md:text-4xl lg:text-5xl" variants={variants}>The Editor</motion.h1>
                 <motion.span variants={iconVariants} class="material-icons pl-2 lg:pl-5 md:text-4xl lg:text-8xl gray-500">description</motion.span>
             </motion.div>
@@ -68,8 +68,9 @@ const Login = ({ transition }) => {
                     ripple="light"
                     className='mt-3 bg-gray-700 shadow-sm'
                     aria-label='Sing in with Google'
+                    onClick={() => { signIn('google') }}
                 >
-                    Sign in with 
+                    Sign in with
                     <GoogleSvg className="w-24 h-9" />
                 </MotionButton>
             </motion.div>

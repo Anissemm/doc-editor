@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Head from 'next/head'
 import Header from '../components/Header'
 import Button from '@material-tailwind/react/Button'
@@ -5,9 +6,11 @@ import Icon from '@material-tailwind/react/Icon'
 import Image from 'next/image'
 import { useSession, getSession } from 'next-auth/react'
 import Login from '../components/Login'
+import CreateDocModal from '../components/CreateDocModal'
 
 export default function Home() {
   const { data: session, status } = useSession()
+  const [showCreateDocModal, setCreateDocShowModal] = useState(false);
 
   if (status === 'unauthenticated') return <Login />
   if (status === 'loading') return <Login transition={true} />
@@ -21,7 +24,7 @@ export default function Home() {
       </Head>
       <Header />
 
-      <section>
+      <section className='w-full'>
         <div className='max-w-3xl mx-auto bg-[#F8F9FA] px-10'>
           <div className='flex items-center justify-between py-6'>
             <h2 className='text-gray-700'>Start a new document</h2>
@@ -38,9 +41,13 @@ export default function Home() {
             </Button>
           </div>
           <div>
-            <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-600 transition-all duration-150'>
+            <button
+              className='focus:outline-none focus:border-blue-600 bg-transparent relative h-52 w-40 border-2 cursor-pointer hover:border-blue-600 transition-all duration-150'
+              onClick={() => {
+                setCreateDocShowModal(true)
+              }}>
               <Image src="https://links.papareact.com/pju" layout="fill" />
-            </div>
+            </button>
             <p className='mt-2 ml-2 text-gray-500 font-semibold'>Blank</p>
           </div>
         </div>
@@ -52,6 +59,17 @@ export default function Home() {
           <Icon name='folder' size="2xl" color='gray' />
         </header>
       </section>
+      <CreateDocModal show={showCreateDocModal} setShow={setCreateDocShowModal} />
     </div>
   )
+}
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context)
+
+  return {
+    props: {
+      session
+    }
+  }
 }

@@ -1,7 +1,13 @@
 import Button from '@material-tailwind/react/Button'
 import Icon from '@material-tailwind/react/Icon'
+import { signOut, useSession } from 'next-auth/react'
+import Logo from '../assets/svg/logo'
 
 const Header = () => {
+    const {data: session} = useSession()
+
+    console.log(session)
+
     return (
         <header className='py-3 flex items-center sticky top-0 z-50 px-5 shadow-md bg-white'>
             <div className="flex items-center">
@@ -17,8 +23,9 @@ const Header = () => {
                     <Icon name="menu" size="2xl" />
                 </Button>
                 <h1 className='flex items-center'>
-                    <Icon className="mx-5 block" name="description" color="blue" size="3xl" />
-                    <span className='pl-2 text-gray-700 text-xl'>Docs</span>
+                    {/* <Icon className="mx-5 block" name="description" color="blue" size="3xl" /> */}
+                    <Logo className='w-8 h-8 fill-blue-700' />
+                    <span className='pl-2 text-gray-700 text-xl'>TEditor</span>
                 </h1>
             </div>
             <div className='flex flex-grow items-center mx-5 px-4 py-0.5 bg-gray-100 rounded-md md:mx-20 text-gray-400 focus-within:shadow-md focus-within:text-gray-600 transition-all'>
@@ -38,9 +45,12 @@ const Header = () => {
                     <Icon name="apps" size="2xl" />
                 </Button>
                 <img
-                    className='cursor-pointer h-10 w-10 rounded-full ml-2 hover:shadow-md focus:shadow-md transition-all'
-                    src="https://i.ibb.co/X8K83SG/Profil-crop.png"
+                    className='cursor-pointer h-8 w-8 rounded-full ml-2 hover:shadow-md focus:shadow-md transition-all'
+                    src={session.user?.image}
                     alt="Profile image"
+                    onClick={() => {
+                        signOut()
+                    }}
                 />
                 
             </div>

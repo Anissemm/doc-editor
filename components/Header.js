@@ -1,12 +1,10 @@
 import Button from '@material-tailwind/react/Button'
 import Icon from '@material-tailwind/react/Icon'
-import { signOut, useSession } from 'next-auth/react'
+import { getSession, signOut, useSession } from 'next-auth/react'
 import Logo from '../assets/svg/logo'
 
 const Header = () => {
     const {data: session} = useSession()
-
-    console.log(session)
 
     return (
         <header className='py-3 flex items-center sticky top-0 z-50 px-5 shadow-md bg-white'>
@@ -56,6 +54,16 @@ const Header = () => {
             </div>
         </header>
     )
+}
+
+export const getServerSideProps = async (context) => {
+    const session = await getSession(context)
+
+    return {
+        props: {
+            session
+        }
+    }
 }
 
 export default Header

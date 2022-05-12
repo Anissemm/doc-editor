@@ -7,6 +7,7 @@ import Input from "@material-tailwind/react/Input"
 import { doc, collection, setDoc, serverTimestamp, } from "firebase/firestore"
 import { db } from '../firebase'
 import { useSession } from "next-auth/react"
+import { nanoid } from "nanoid"
 
 export default function CreateDocModal({ show, setShow }) {
     const { data: session } = useSession()
@@ -21,7 +22,8 @@ export default function CreateDocModal({ show, setShow }) {
             const document = doc(collection(user, 'docs'))
             await setDoc(document, {
                 filename: name,
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
+                id: nanoid()
             })
             
         }

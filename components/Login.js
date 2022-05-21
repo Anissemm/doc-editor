@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import Button from "@material-tailwind/react/Button"
 import { signIn } from "next-auth/react"
 import GoogleSvg from '../assets/svg/google'
+import YandexSvg from '../assets/svg/yandex'
 
 const MotionButton = motion(Button)
 console.log(GoogleSvg)
@@ -72,6 +73,22 @@ const Login = ({ transition }) => {
                 >
                     Sign in with
                     <GoogleSvg className="w-24 h-9" />
+                </MotionButton>
+                <MotionButton
+                    variants={loginVariants}
+                    custom={2}
+                    color='blueGray'
+                    buttonType="filled"
+                    size="md"
+                    rounded={false}
+                    iconOnly={false}
+                    ripple="light"
+                    className='mt-3 bg-gray-700 shadow-sm'
+                    aria-label='Sing in with Yandex'
+                    onClick={() => { signIn('yandex') }}
+                >
+                    Sign in with
+                    <YandexSvg className="w-24 h-9" />
                 </MotionButton>
             </motion.div>
         </motion.div>

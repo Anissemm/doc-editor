@@ -1,35 +1,42 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Modal from "@material-tailwind/react/Modal"
 import ModalBody from "@material-tailwind/react/ModalBody"
 import ModalFooter from "@material-tailwind/react/ModalFooter"
 import Button from "@material-tailwind/react/Button"
 import Input from "@material-tailwind/react/Input"
-import { doc, collection, setDoc, serverTimestamp, } from "firebase/firestore"
+import { serverTimestamp } from "firebase/firestore"
 import { db } from '../firebase'
 import { useSession } from "next-auth/react"
-import { nanoid } from "nanoid"
+import { useRouter } from "next/router"
+import useUntitledDocsLength from "../hooks/useUntitledDocsLength"
 
 export default function CreateDocModal({ show, setShow }) {
     const { data: session } = useSession()
-
-    const [docName, setDocName] = useState()
+    const router = useRouter()
+    const [docName, setDocName] = useState('')
+    const [documentId, setDocumentId] = useState(null)
+    const query = db.collection('userDocs').doc(session.user?.email).collection('docs')
+    const untitledDocsLength = useUntitledDocsLength(session)
 
     const createDocument = async (name) => {
-        if (!name) return
+
         if (db) {
-            const col = collection(db, 'userDocs')
-            const user = doc(col, session.user.email)
-            const document = doc(collection(user, 'docs'))
-            await setDoc(document, {
-                filename: name,
+            const doc = await query.add({
+                filename: name ? name : `Untitled_${untitledDocsLength}`,
                 createdAt: serverTimestamp(),
-                id: nanoid()
             })
-            
+
+            setDocumentId(doc.id)
+            setShow(false)
+            setDocName('')
         }
-        setShow(false)
-        setDocName('')
     }
+
+    useEffect(() => {
+        if (documentId) {
+            router.push(`/doc/${documentId}`)
+        }
+    }, [documentId])
 
     return (
         <>

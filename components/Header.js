@@ -28,7 +28,7 @@ const Header = () => {
             </div>
             <div className='flex flex-grow items-center mx-5 px-4 py-0.5 bg-gray-100 rounded-md md:mx-20 text-gray-400 focus-within:shadow-md focus-within:text-gray-600 transition-all'>
                 <Icon name="search" color="gray-400" size="2xl" />
-                <input type='search' placeholder='Search' className='pl-4 pr-1 flex-grow p-2 outline-none bg-transparent' />
+                <input type='search' placeholder='Search' className='pl-4 pr-1 w-full p-2 outline-none bg-transparent' />
             </div>
             <div className='flex items-center'>
                 <Button

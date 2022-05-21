@@ -1,0 +1,8 @@
+@tailwind components;
+
+@layer components {
+    .menu-item {
+        @apply hover:bg-gray-100 hover:text-gray-700 my-0 text-gray-500 cursor-pointer px-2 py-1 mx-[0.125rem] transition rounded
+        text-[12px] sm:text-[14px]; 
+    }
+}

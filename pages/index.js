@@ -8,22 +8,16 @@ import { useSession, getSession } from 'next-auth/react'
 import Login from '../components/Login'
 import CreateDocModal from '../components/CreateDocModal'
 import { useCollection } from 'react-firebase-hooks/firestore'
-import { collection, orderBy, query} from 'firebase/firestore'
 import { db } from '../firebase'
-
+import Time from '../components/TimeAgo'
+import Link from 'next/link'
+import DocList from '../components/DocList'
 
 export default function Home() {
-  const { data: session, status } = useSession()
+  const { data: _session, status } = useSession()
   const [showCreateDocModal, setCreateDocShowModal] = useState(false);
 
-  if (status === 'unauthenticated') return <Login />
-  if (status === 'loading') return <Login transition={true} />
-
-  const firestoreQuery = query(collection(collection(db, 'userDocs'), session.user?.email, 'docs'), orderBy('createdAt', 'desc'))
-
-  const [snapshot, isSnapshotLoading] = useCollection(firestoreQuery)
-
- const documents = !isSnapshotLoading ? snapshot.docs : null
+  if (status === 'unauthenticated' || status === 'loading') return <Login />
 
   return (
     <div>
@@ -34,7 +28,7 @@ export default function Home() {
       </Head>
       <Header />
 
-      <section className='w-full'>
+      <section>
         <div className='max-w-3xl mx-auto bg-[#F8F9FA] px-10'>
           <div className='flex items-center justify-between py-6'>
             <h2 className='text-gray-700'>Start a new document</h2>
@@ -54,6 +48,7 @@ export default function Home() {
             <button
               className='focus:outline-none focus:border-blue-600 bg-transparent relative h-52 w-40 border-2 cursor-pointer hover:border-blue-600 transition-all duration-150'
               onClick={() => {
+                console.log(true)
                 setCreateDocShowModal(true)
               }}>
               <Image src="https://links.papareact.com/pju" layout="fill" />
@@ -62,25 +57,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className='max-w-3xl mx-auto p-10 text-sm text-gray-700'>
-        <header className='flex items-center justify-between'>
-          <h2 className='font-medium flex-grow'>My Documents</h2>
-          <p className='mr-5'>Date Created</p>
-          <Icon name='folder' size="2xl" color='gray' />
-        </header>
-        <section>
-              {documents ? documents.map(document => {
-                console.log(document)
-                return (
-                  <li>
-                    <Button />
-                  </li>
-                )
-              }) : null} 
-          <ul>
-          </ul>
-        </section>
-      </section>
+      <DocList />
       <CreateDocModal show={showCreateDocModal} setShow={setCreateDocShowModal} />
     </div>
   )

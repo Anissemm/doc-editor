@@ -29,6 +29,15 @@ const Doc = () => {
         }
     }, [filename])
 
+
+    const handleNameChange = (e) => {
+        if (e.target.textContent === '') {
+            return setFilename('Untitled')
+        }
+        setFilename(e.target.textContent)
+    }
+
+
     if (status === 'unauthenticated' || status === 'loading') return <Login />
     return (
         <div>
@@ -45,11 +54,13 @@ const Doc = () => {
                                 role="textbox"
                                 contentEditable={true}
                                 suppressContentEditableWarning={true}
-                                onBlur={(e) => {
-                                    if (e.target.textContent === '') {
-                                        return setFilename('untitled')
+                                onBlur={handleNameChange}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault()
+                                        handleNameChange(e)
+                                        e.target.blur()
                                     }
-                                    setFilename(e.target.textContent)
                                 }}
                             >
                                 {filename}

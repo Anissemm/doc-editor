@@ -16,3 +16,4 @@ const app = !firebase.apps.length
     : firebase.app()
 
 export const db = app.firestore()
+

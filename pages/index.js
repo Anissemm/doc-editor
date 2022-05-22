@@ -3,14 +3,9 @@ import Head from 'next/head'
 import Header from '../components/Header'
 import Button from '@material-tailwind/react/Button'
 import Icon from '@material-tailwind/react/Icon'
-import Image from 'next/image'
 import { useSession, getSession } from 'next-auth/react'
 import Login from '../components/Login'
 import CreateDocModal from '../components/CreateDocModal'
-import { useCollection } from 'react-firebase-hooks/firestore'
-import { db } from '../firebase'
-import Time from '../components/TimeAgo'
-import Link from 'next/link'
 import DocList from '../components/DocList'
 
 export default function Home() {
@@ -33,27 +28,16 @@ export default function Home() {
           <div className='flex items-center justify-between py-6'>
             <h2 className='text-gray-700'>Start a new document</h2>
             <Button
-              className='border-0 mr-2'
-              color="gray"
-              buttonType="outline"
-              rounded={true}
               iconOnly={true}
-              ripple="dark"
-              aria-label="More options toggle"
-            >
-              <Icon name="more_vert" color="gray" size="2xl" />
-            </Button>
-          </div>
-          <div>
-            <button
-              className='focus:outline-none focus:border-blue-600 bg-transparent relative h-52 w-40 border-2 cursor-pointer hover:border-blue-600 transition-all duration-150'
+              buttonType='outline'
+              color='gray'
+              aria-label='Blank'
+              className='mr-auto ml-3 focus:outline-none bg-transparent h-6 w-6 relative border-2 cursor-pointer transition-all duration-150'
               onClick={() => {
-                console.log(true)
                 setCreateDocShowModal(true)
               }}>
-              <Image src="https://links.papareact.com/pju" layout="fill" />
-            </button>
-            <p className='mt-2 ml-2 text-gray-500 font-semibold'>Blank</p>
+              <Icon name='add' />
+            </Button>
           </div>
         </div>
       </section>

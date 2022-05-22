@@ -9,6 +9,7 @@ import { db } from '../firebase'
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import useUntitledDocsLength from "../hooks/useUntitledDocsLength"
+import { AnimatePresence, motion } from 'framer-motion'
 
 export default function CreateDocModal({ show, setShow }) {
     const { data: session } = useSession()
@@ -17,12 +18,13 @@ export default function CreateDocModal({ show, setShow }) {
     const [documentId, setDocumentId] = useState(null)
     const query = db.collection('userDocs').doc(session.user?.email).collection('docs')
     const untitledDocsLength = useUntitledDocsLength(session)
+    const [loading, setLoading] = useState(false)
 
     const createDocument = async (name) => {
-
         if (db) {
+            setLoading(true)
             const doc = await query.add({
-                filename: name ? name : `Untitled_${untitledDocsLength}`,
+                filename: name ? name : `Untitled_${untitledDocsLength + 1}`,
                 createdAt: serverTimestamp(),
             })
 
@@ -39,18 +41,41 @@ export default function CreateDocModal({ show, setShow }) {
     }, [documentId])
 
     return (
-        <>
-            <Modal size="sm" active={show} toggler={() => setShow(false)}>
+        <div>
+            <AnimatePresence>
+                {loading &&
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.5 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed top-0 left-0 w-screen h-screen bg-gray-400 z-[51]"
+                    />
+                }
+            </AnimatePresence>
+            <Modal
+                size="sm"
+                active={show}
+                toggler={() => setShow(false)}
+                onBlur={() => {
+                    setShow(false)
+                    setDocName('')
+                }}>
                 <h3 className="sr-only">Create New Document</h3>
                 <ModalBody>
                     <Input
                         type="text"
                         color="gray"
                         size="sm"
+                        disabled={loading}
                         value={docName}
                         outline={true}
                         placeholder="Document name"
                         onChange={(e) => setDocName(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                createDocument(docName)
+                            }
+                        }}
                     />
                 </ModalBody>
                 <ModalFooter>
@@ -59,9 +84,10 @@ export default function CreateDocModal({ show, setShow }) {
                         color="red"
                         buttonType="link"
                         ripple="dark"
+                        disabled={loading}
                         onClick={() => {
-                            setDocName('')
                             setShow(false)
+                            setDocName('')
                         }}
                     >
                         Cancel
@@ -71,6 +97,7 @@ export default function CreateDocModal({ show, setShow }) {
                         color="green"
                         size="sm"
                         ripple="light"
+                        disabled={loading}
                         onClick={() => {
                             createDocument(docName)
                         }}
@@ -79,6 +106,6 @@ export default function CreateDocModal({ show, setShow }) {
                     </Button>
                 </ModalFooter>
             </Modal>
-        </>
+        </div>
     )
 }

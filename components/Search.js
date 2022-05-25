@@ -3,15 +3,22 @@ import useSearch from "../hooks/useDocsSearch"
 import Icon from '@material-tailwind/react/Icon'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
+import DocIcon from '../assets/svg/DocSvg'
 
-const variants = {
-    initial: { x: -50, opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: -50, opacity: 0 }
+const scaleVariants = {
+    initial: { scale: 0.5, opacity: 0 },
+    animate: { scale: 1, opacity: 1 },
+    exit: { scale: 0.5, opacity: 0 }
+}
+
+const fadeVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
 }
 
 const Search = () => {
-    const { handleSearch, getResults, loading: searchLoading } = useSearch()
+    const { handleSearch, getResults, loading: searchLoading, endQuery, isCleanInput } = useSearch()
     const { results } = getResults()
     const [focused, setFocused] = useState(false)
 
@@ -34,28 +41,45 @@ const Search = () => {
             <AnimatePresence>
                 {focused &&
                     <motion.section
-                        className='fixed pt-[85px] px-24 z-49 top-0 left-0 w-screen h-screen bg-slate-700 bg-opacity-80 px'
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }} >
-                        <motion.header>
-                            <motion.h3 {...variants} className='text-2xl text-gray-100 underline decoration-2'>
-                                RESULTS:
-                            </motion.h3>
-                        </motion.header>
-                        <motion.ul
-                            className='mx-auto max-w-2xl bg-slate-700 bg-opacity-50'>
-                            {results?.map(result => {
-                                console.log(result)
-                                return (<motion.li key={result.id}>
-                                    <Link href={`/doc/${result.id}`}>
-                                        <a>
-                                            {result.filename}
-                                        </a>
-                                    </Link>
-                                </motion.li>)
-                            })}
-                        </motion.ul>
+                        {...fadeVariants}
+                        className='fixed pt-[85px] px-16 z-49 top-0 left-0 w-screen h-screen bg-slate-700 bg-opacity-80 px'
+                    >
+                        {!isCleanInput &&
+                            <AnimatePresence>
+                                <motion.div {...fadeVariants} className='scrollbar-thin scrollbar-thumb-t scrollbar-thumb-gray-400 mx-auto max-w-4xl h-[80%] overflow-scroll bg-slate-700 bg-opacity-50 p-10 shadow-md'>
+                                    <h3 className='sr-only'>RESULTS:</h3>
+                                    <motion.ul>
+                                        {(results.length && results?.map(result => {
+                                            return (
+                                                <motion.li {...scaleVariants} key={result.id}>
+                                                    <Link href={`/doc/${result.id}`}>
+                                                        <a className="flex items-center rounded shadow-sm break-words overflow-y-auto flex-wrap text-gray-700 font-medium text-sm bg-gray-100 ml-4 mb-4 p-5 hover:shadow-xl hover:bg-gray-200 cursor-pointer">
+                                                            <DocIcon className="w-14 mr-3" />
+                                                            <span className='pr-10'>{result.filename}</span>
+                                                        </a>
+                                                    </Link>
+                                                </motion.li>
+                                            )
+                                        })) ||
+                                            (results?.length === 0 && endQuery &&
+                                                (<motion.div
+                                                    className='flex justify-center items-center text-gray-100'
+                                                    {...scaleVariants}>
+                                                    No Result
+                                                </motion.div>)
+                                            ) ||
+                                            (searchLoading &&
+                                                (<motion.div
+                                                    className='flex justify-center items-center text-gray-100'
+                                                    {...scaleVariants}>
+                                                    Loading...
+                                                </motion.div>)
+                                            )
+                                        }
+                                    </motion.ul>
+                                </motion.div>
+                            </AnimatePresence>
+                        }
                     </motion.section>
                 }
             </AnimatePresence>

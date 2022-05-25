@@ -8,6 +8,7 @@ import Logo from '../../assets/svg/logo'
 import Link from 'next/link'
 import TextEditor from '../../components/TextEditor'
 import { motion } from 'framer-motion'
+import Icon from '@material-tailwind/react/Icon'
 
 const Doc = () => {
     const { data: session, status } = useSession()
@@ -40,14 +41,14 @@ const Doc = () => {
 
     if (status === 'unauthenticated' || status === 'loading') return <Login />
     return (
-        <div>
+        <div className='bg-[#F8F9FA]'>
             <header className='py-3 flex items-center sticky top-0 z-50 px-5 shadow-md bg-white'>
                 <div className='flex justify-between items-center text-gray-800'>
                     <Link href='/'>
                         <Logo className='cursor-pointer w-10 h-10 fill-blue-700' />
                     </Link>
                     <div className='ml-2 sm:ml-5'>
-                        <motion.h2 className='text-md ml-2 font-medium' aria-label={filename}>
+                        <motion.h2 className='flex items-center justify-between text-md ml-2 font-medium' aria-label={filename}>
                             <motion.span
                                 className='p-2 border-1 border-gray-400 outline-1 outline-gray-100 transition duration-1000'
                                 name="filename"
@@ -65,6 +66,7 @@ const Doc = () => {
                             >
                                 {filename}
                             </motion.span>
+                            <Icon name="edit" color='gray' size='xs' />
                         </motion.h2>
                     </div>
                 </div>

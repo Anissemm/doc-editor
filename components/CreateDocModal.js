@@ -25,6 +25,7 @@ export default function CreateDocModal({ show, setShow }) {
             setLoading(true)
             const doc = await query.add({
                 filename: name ? name : `Untitled_${untitledDocsLength + 1}`,
+                content: '',
                 createdAt: serverTimestamp(),
             })
 

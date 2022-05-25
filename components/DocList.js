@@ -47,7 +47,7 @@ const DocList = () => {
                 exit={{ opacity: 0 }}>
                 <Link href={`/doc/${document.id}`}>
                     <a className='flex items-center grow justify-between w-full text-gray-600 pl-3 text-[13px]'>
-                        {data.filename}
+                        <span className="truncate max-w-[100px] sm:max-w-[300px]">{data.filename}</span>
                         <Time className='text-gray-500 font-normal text-[10px]' date={data.createdAt ? data.createdAt.toMillis() : Date.now()} />
                     </a>
                 </Link>

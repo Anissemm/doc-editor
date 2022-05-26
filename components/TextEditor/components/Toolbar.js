@@ -2,6 +2,7 @@ import { forwardRef } from "react"
 import dynamic from 'next/dynamic'
 const  MarkButton = dynamic(() => import('./MarkButton'), {ssr: false})
 const  BlockButton = dynamic(() => import('./BlockButton'), {ssr: false})
+const  FontSelect = dynamic(() => import('./FontSelect'), {ssr: false})
 
 const Toolbar = forwardRef((props, ref) => {
     return (
@@ -14,6 +15,7 @@ const Toolbar = forwardRef((props, ref) => {
             <MarkButton format="italic" icon="format_italic" />
             <MarkButton format="underline" icon="format_underlined" />
             <MarkButton format="code" icon="code" />
+            <FontSelect format="font-size" />
             <BlockButton format="heading-one" icon="looks_one" />
             <BlockButton format="heading-two" icon="looks_two" />
             <BlockButton format="block-quote" icon="format_quote" />

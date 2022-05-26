@@ -93,16 +93,16 @@ const DocList = () => {
             <section>
                 <ul className='list-none mt-5 px-5'>
                     <AnimatePresence>
-                            {sort === 'asc' ? documents : documents.reverse()}
+                        {sort === 'asc' ? documents : documents.reverse()}
+                        {!documents.length > 0 ? <p className="text-center py-5 italic text-sm text-gray-300">No documents</p> : null}
                     </AnimatePresence>
                 </ul>
             </section>
             <Button
-                className='ml-2 mt-5 mr-auto h-6 px-1 disabled:hover:bg-transparent disabled:hover:text-gray-400'
+                className={`ml-5 mt-5 mr-auto h-6 px-1 ${!noMoreDocs.current && 'border'} !p-4 border-1 border-gray-300 disabled:bg-gray-200 disabled:text-white disabled:hover:bg-gray-200 disabled:hover:text-white`}
                 color='gray'
                 disabled={noMoreDocs.current}
                 buttonType='link'
-                block={true}
                 onClick={() => setItemsCount(prev => prev + 3)}
             >
                 Show More

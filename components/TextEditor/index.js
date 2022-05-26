@@ -1,30 +1,26 @@
 import { useMemo, useState, useCallback, useEffect } from 'react'
 import { createEditor } from 'slate'
-import { Slate, withReact, Editable } from 'slate-react'
+import { Slate, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 import { db } from '../../firebase'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
-import isHotkey from 'is-hotkey'
-import { HOTKEYS } from './constants'
-import Element from './components/Element'
-import Leaf from './components/Leaf'
-import { toggleMark } from './functions'
 import Toolbar from './components/toolbar'
+import EditableWithDecorator from './components/EditableWithDecorator'
 
 const TextEditor = () => {
     const { data: session } = useSession()
     const router = useRouter()
     const { id } = router.query
-    const renderElement = useCallback(props => <Element {...props} />, [])
-    const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+ 
 
     const query = db.collection('userDocs')
         .doc(session?.user.email)
         .collection('docs')
         .doc(id)
+
 
     const [data] = useDocumentData(query)
 
@@ -53,22 +49,7 @@ const TextEditor = () => {
             onChange={handleChange}
         >
             <Toolbar />
-            <Editable
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                className=' bg-white mx-auto my-10 md:w-[210mm] md:h-[297mm] md:min-h-0 min-h-full shadow-2xl'
-                spellCheck
-                placeholder='Type your text here...'
-                onKeyDown={event => {
-                    for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event)) {
-                            event.preventDefault()
-                            const mark = HOTKEYS[hotkey]
-                            toggleMark(editor, mark)
-                        }
-                    }
-                }}
-            />
+            <EditableWithDecorator />
         </Slate>
     )
 }

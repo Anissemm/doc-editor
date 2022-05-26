@@ -54,7 +54,7 @@ const Login = ({ transition }) => {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-24 sm:p-0 sm:grid sm:grid-cols-2 bg-zinc-900 sm:h-auto h-screen sm:grid-rows-1">
             <motion.div initial='hidden' animate='visible' className="font-['Poppins'] my-10 sm:my-0 text-3xl lg:text-5xl font-semibold text-gray-500 flex items-center justify-center">
                 <motion.h1 className="relative z-1 md:text-4xl lg:text-5xl" variants={variants}>The Editor</motion.h1>
-                <motion.span variants={iconVariants} class="material-icons pl-2 lg:pl-5 md:text-4xl lg:text-8xl gray-500">description</motion.span>
+                <motion.span variants={iconVariants} className="material-icons pl-2 lg:pl-5 md:text-4xl lg:text-8xl gray-500">description</motion.span>
             </motion.div>
             <motion.div initial='hidden' animate='visible' className="font-['Poppins'] my-10 sm:my-0 lg:text-5xl font-semibold flex flex-col justify-center items-center text-gray-400">
                 <h2 className="sr-only" variants={loginVariants} custom={0}>Sign in</h2>

@@ -1,4 +1,4 @@
-import { Editor, Transforms, Element as SlateElement } from "slate"
+import { Editor, Transforms, Element as SlateElement, Text as TextElement } from "slate"
 import { TEXT_ALIGN_TYPES, LIST_TYPES } from "./constants"
 
 export const isBlockActive = (editor, format, blockType = 'type') => {
@@ -20,10 +20,12 @@ export const isBlockActive = (editor, format, blockType = 'type') => {
 
 export const isMarkActive = (editor, format) => {
     const marks = Editor.marks(editor)
+    if (typeof format === 'object' && format.name === 'fontSize') format = format.name
     return marks ? marks[format] === true : false
 }
 
 export const toggleBlock = (editor, format) => {
+
     const isActive = isBlockActive(
         editor,
         format,

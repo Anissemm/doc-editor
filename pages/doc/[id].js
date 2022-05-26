@@ -6,9 +6,11 @@ import { db } from "../../firebase"
 import { useRouter } from "next/router"
 import Logo from '../../assets/svg/logo'
 import Link from 'next/link'
-import TextEditor from '../../components/TextEditor'
 import { motion } from 'framer-motion'
 import Icon from '@material-tailwind/react/Icon'
+import dynamic from 'next/dynamic'
+
+const TextEditor = dynamic(() => import('../../components/TextEditor'), {ssr: false})
 
 const Doc = () => {
     const { data: session, status } = useSession()
@@ -45,12 +47,12 @@ const Doc = () => {
             <header className='py-3 flex items-center sticky top-0 z-50 px-5 shadow-md bg-white'>
                 <div className='flex justify-between items-center text-gray-800'>
                     <Link href='/'>
-                        <Logo className='cursor-pointer w-10 h-10 fill-blue-700' />
+                        <Logo className='cursor-pointer w-6 h-6 fill-blue-700' />
                     </Link>
                     <div className='ml-2 sm:ml-5'>
                         <motion.h2 className='flex items-center justify-between text-md ml-2 font-medium' aria-label={filename}>
                             <motion.span
-                                className='p-2 border-1 border-gray-400 outline-1 outline-gray-100 transition duration-1000'
+                                className='py-1 px-2 border-1 border-gray-400 outline-1 outline-gray-100 transition duration-1000'
                                 name="filename"
                                 role="textbox"
                                 contentEditable={true}

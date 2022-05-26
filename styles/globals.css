@@ -18,3 +18,27 @@ a {
 * {
   box-sizing: border-box;
 }
+.ql-container.ql-snow {
+  display: flex;
+  justify-content: center;
+}
+
+.ql-container.ql-snow .ql-editor {
+  background-color: white;
+  max-width: 210mm;
+  min-height: 297mm;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 5px #000;
+  margin: 20px;
+}
+
+.ql-toolbar.ql-snow {
+  background-color: white;
+  position: sticky;
+  top: 56px;
+  box-shadow: 0 0 5px #000;
+  display: flex;
+  justify-content: center;
+  z-index: 49;
+}

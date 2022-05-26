@@ -1,56 +1,42 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
-import { createEditor } from 'slate'
-import { Slate, withReact } from 'slate-react'
-import { withHistory } from 'slate-history'
-import { db } from '../../firebase'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
-import Toolbar from './components/toolbar'
-import EditableWithDecorator from './components/EditableWithDecorator'
+import Quill from "quill"
+import 'quill/dist/quill.snow.css'
+import { useCallback } from "react"
+
+var toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote', 'code-block'],
+
+    [{ 'header': 1 }, { 'header': 2 }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }], t
+    [{ 'indent': '-1' }, { 'indent': '+1' }],
+    [{ 'direction': 'rtl' }],
+
+    [{ 'size': ['small', false, 'large', 'huge'] }],
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'font': [] }],
+    [{ 'align': [] }],
+
+    ['clean']
+];
 
 const TextEditor = () => {
-    const { data: session } = useSession()
-    const router = useRouter()
-    const { id } = router.query
-    const editor = useMemo(() => withHistory(withReact(createEditor())), [])
- 
-
-    const query = db.collection('userDocs')
-        .doc(session?.user.email)
-        .collection('docs')
-        .doc(id)
-
-
-    const [data] = useDocumentData(query)
-
-    const initialValueBlank = [{ type: 'paragraph', children: [{ text: 'Type your text here...' }] }]
-
-    const initialValue = useMemo(() => (data?.content && JSON.parse(data.content)), [data?.content]) || initialValueBlank
-
-    if (typeof data?.content !== 'string') return
-
-
-    const handleChange = (contentValue) => {
-        const isAstChange = editor.operations.some(
-            op => 'set_selection' !== op.type
-        )
-        const content = JSON.stringify(contentValue)
-
-        if (isAstChange) {
-            query.set({ content }, { merge: true })
-        }
-    }
+    const wrapperRef = useCallback((editorSection) => {
+        if (editorSection === null) return
+        editorSection.innerHTML = ''
+        const editorWrapper = document.createElement('div')
+        editorSection.append(editorWrapper)
+        new Quill(editorWrapper, {
+            theme: 'snow', modules: {
+                toolbar: toolbarOptions
+            }
+        })
+    })
 
     return (
-        <Slate
-            editor={editor}
-            value={initialValue}
-            onChange={handleChange}
-        >
-            <Toolbar />
-            <EditableWithDecorator />
-        </Slate>
+        <section ref={wrapperRef}></section>
     )
 }
 

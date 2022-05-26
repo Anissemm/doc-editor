@@ -10,7 +10,9 @@ import { motion } from 'framer-motion'
 import Icon from '@material-tailwind/react/Icon'
 import dynamic from 'next/dynamic'
 
-const TextEditor = dynamic(() => import('../../components/TextEditor'), {ssr: false})
+const TextEditor = dynamic(() => import('../../components/TextEditor'), { ssr: false })
+
+console.log(TextEditor)
 
 const Doc = () => {
     const { data: session, status } = useSession()
@@ -50,12 +52,13 @@ const Doc = () => {
                         <Logo className='cursor-pointer w-6 h-6 fill-blue-700' />
                     </Link>
                     <div className='ml-2 sm:ml-5'>
-                        <motion.h2 className='flex items-center justify-between text-md ml-2 font-medium' aria-label={filename}>
+                        <motion.h2 className='flex flex-col items-start justify-between text-md ml-2 font-medium' aria-label={filename}>
                             <motion.span
-                                className='py-1 px-2 border-1 border-gray-400 outline-1 outline-gray-100 transition duration-1000'
+                                className='py-0 px-2 border-1 text-sm border-gray-400 outline-1 outline-gray-100 transition duration-1000'
                                 name="filename"
                                 role="textbox"
                                 contentEditable={true}
+                                spellCheck={false}
                                 suppressContentEditableWarning={true}
                                 onBlur={handleNameChange}
                                 onKeyDown={(e) => {
@@ -68,7 +71,10 @@ const Doc = () => {
                             >
                                 {filename}
                             </motion.span>
-                            <Icon name="edit" color='gray' size='xs' />
+                            <small className='text-gray-400 text-[12px]'>
+                                <Icon name="edit" color='gray' size='xs' className='!rotate-45 pr-2' />
+                                Edit
+                            </small>
                         </motion.h2>
                     </div>
                 </div>

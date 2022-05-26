@@ -6,7 +6,7 @@ const useUntitledDocsCount = (session) => {
    const query = db.collection('userDocs').doc(session.user?.email).collection('docs')
    const [docs] = useCollectionData(query)
    const untitledDocsCount = docs?.map(doc => {
-                           const match = doc.filename.match(/^Untitled_(\d+)$/)
+                           const match = doc?.filename?.match(/^Untitled_(\d+)$/)
                            if (match) {
                               return parseInt(match[1])
                            } 

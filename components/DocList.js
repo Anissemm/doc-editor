@@ -8,6 +8,7 @@ import Button from '@material-tailwind/react/Button'
 import Icon from '@material-tailwind/react/Icon'
 import { AnimatePresence, LayoutGroup, motion, Reorder } from "framer-motion"
 import InfinityLoader from "../assets/svg/InfinityLoader"
+import isEqual from "lodash.isequal"
 
 const loadVariants = {
     initial: { opacity: 0 },
@@ -19,6 +20,7 @@ const DocList = () => {
     const { data: session } = useSession()
     const [sort, setSort] = useState('asc')
     const [itemsCount, setItemsCount] = useState(2)
+    const [lastSnapshotDocs, setLastSnapshotDocs] = useState(null)
     const [noMoreDocs, setNoMoreDocs] = useState(false)
 
     const firestoreQuery = db.collection('userDocs').doc(session.user?.email).collection('docs')
@@ -35,6 +37,22 @@ const DocList = () => {
             console.log(err)
         }
     }
+
+    useEffect(() => {
+        if (documents) {
+            const { docs } = documents
+            const data = docs?.map(doc => doc.data())
+
+            firestoreQuery.orderBy('modifiedAt', 'desc').get().then((temp) => {
+                const tempData = temp?.docs.map(snapshot => snapshot.data())
+                console.log(isEqual(data, tempData))
+                if (isEqual(data, tempData)) {
+                    return setNoMoreDocs(true)
+                }
+                setNoMoreDocs(false)
+            })
+        }
+    }, [documents])
 
     let docs = documents?.docs.map((document) => {
         const data = document.data()
@@ -74,10 +92,25 @@ const DocList = () => {
     return (
         <section className='max-w-3xl mx-auto p-10 text-sm text-gray-500'>
             <header className='flex items-center justify-between px-5'>
-                <h2 className='font-medium'>Latest documents</h2>
+                <div className="flex items-center">
+                    <h2 className='font-medium mr-2'>Latest documents</h2>
+                    <Button
+                        className={`w-6 h-6 !cursor-pointer`}
+                        rounded={true}
+                        color="transparent"
+                        disabled={docs.length <= 2}
+                        buttonType="outline"
+                        ripple="dark"
+                        iconOnly={true}
+                        aria-label='Collapse list'
+                        onClick={() => setItemsCount(2)}
+                    >
+                        <Icon name='expand_less' size="xl" color='gray' />
+                    </Button>
+                </div>
                 <div className="flex items-center justify-center">
                     <Button
-                        className="w-8 h-8"
+                        className="w-8 h-8 "
                         color="transparent"
                         buttonType="outline"
                         ripple="dark"
@@ -96,7 +129,7 @@ const DocList = () => {
                 </div>
             </header>
             <motion.section layout transition={{ duration: 0.2 }}>
-                <motion.ul layout transition={{ duration: 0.2 }} className={`list-none overflow-y-hidden max-h-[500px] mt-5 px-5`}>
+                <motion.ul layout transition={{ duration: 0.2 }} className={`scrollbar-thin scrollbar-rounded hover:scrollbar-thumb-gray-500 scrollbar-thumb-transparent list-none overflow-y-auto max-h-[500px] mt-5 px-5`}>
                     <AnimatePresence>
                         <LayoutGroup inherit key={'doc-list'}>
                             {sort === 'asc' ? docs : docs.reverse()}
@@ -111,7 +144,7 @@ const DocList = () => {
             </motion.section>
             <motion.div layout>
                 <Button
-                    // className={`ml-5 mt-5 mr-auto h-6 px-1 ${!noMoreDocs.current && 'border'} !p-4 border-1 border-gray-300 disabled:bg-gray-200 disabled:text-white disabled:hover:bg-gray-200 disabled:hover:text-white`}
+                    className={`ml-5 mt-5 mr-auto h-6 px-1 ${!noMoreDocs && 'border'} !p-4 border-1 border-gray-300 disabled:bg-gray-200 disabled:text-white disabled:hover:bg-gray-200 disabled:hover:text-white`}
                     color='gray'
                     disabled={noMoreDocs}
                     buttonType='link'

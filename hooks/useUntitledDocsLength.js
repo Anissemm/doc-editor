@@ -1,6 +1,5 @@
 import { db } from "../firebase"
 import { useCollectionData } from "react-firebase-hooks/firestore"
-import { connectFirestoreEmulator } from "firebase/firestore"
 
 const useUntitledDocsCount = (session) => {
    const query = db.collection('userDocs').doc(session.user?.email).collection('docs')

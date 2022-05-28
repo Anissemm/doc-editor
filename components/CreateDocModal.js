@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import useUntitledDocsLength from "../hooks/useUntitledDocsLength"
 import { AnimatePresence, motion } from 'framer-motion'
+import { Checkbox } from "@material-tailwind/react"
 
 export default function CreateDocModal({ show, setShow }) {
     const { data: session } = useSession()
@@ -19,6 +20,7 @@ export default function CreateDocModal({ show, setShow }) {
     const query = db.collection('userDocs').doc(session.user?.email).collection('docs')
     const untitledDocsLength = useUntitledDocsLength(session)
     const [loading, setLoading] = useState(false)
+    const [createAndOpen, setCreateAndOpen] = useState(false)
 
     const createDocument = async (name) => {
         if (db) {
@@ -27,24 +29,25 @@ export default function CreateDocModal({ show, setShow }) {
                 filename: name ? name : `Untitled_${untitledDocsLength + 1}`,
                 content: '',
                 createdAt: serverTimestamp(),
+                modifiedAt: serverTimestamp(),
             })
-
             setDocumentId(doc.id)
             setShow(false)
             setDocName('')
+            setLoading(false)
         }
     }
 
     useEffect(() => {
-        if (documentId) {
+        if (documentId && createAndOpen) {
             router.push(`/doc/${documentId}`)
         }
     }, [documentId])
 
     return (
         <div>
-            <AnimatePresence>
-                {loading &&
+            {/* <AnimatePresence>
+                {loading && createAndOpen &&
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.5 }}
@@ -52,7 +55,7 @@ export default function CreateDocModal({ show, setShow }) {
                         className="fixed top-0 left-0 w-screen h-screen bg-gray-400 z-[51]"
                     />
                 }
-            </AnimatePresence>
+            </AnimatePresence> */}
             <Modal
                 size="sm"
                 active={show}
@@ -78,6 +81,14 @@ export default function CreateDocModal({ show, setShow }) {
                             }
                         }}
                     />
+                    {/* <div className='!text-sm pt-2'>
+                        <Checkbox id='create-and-open'
+                            onChange={() => setCreateAndOpen(prev => !prev)}
+                            color='gray'
+                            size='xs'
+                            text='Create and open'
+                        />
+                    </div> */}
                 </ModalBody>
                 <ModalFooter>
                     <Button

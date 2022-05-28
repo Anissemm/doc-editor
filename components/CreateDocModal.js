@@ -9,8 +9,11 @@ import { db } from '../firebase'
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import useUntitledDocsLength from "../hooks/useUntitledDocsLength"
-import { AnimatePresence, motion } from 'framer-motion'
 import { Checkbox } from "@material-tailwind/react"
+import { motion, AnimatePresence } from 'framer-motion'
+import dynamic from "next/dynamic"
+
+const AlertCustom = dynamic(import("./Alert"), { ssr: false })
 
 export default function CreateDocModal({ show, setShow }) {
     const { data: session } = useSession()
@@ -21,16 +24,21 @@ export default function CreateDocModal({ show, setShow }) {
     const untitledDocsLength = useUntitledDocsLength(session)
     const [loading, setLoading] = useState(false)
     const [createAndOpen, setCreateAndOpen] = useState(false)
+    const [created, setCreated] = useState({status: false, msg: ''})
 
     const createDocument = async (name) => {
+        const filename = name ? name : `Untitled_${untitledDocsLength + 1}`
+
         if (db) {
             setLoading(true)
+            setCreated({status: false, msg: 'Creating...'})
             const doc = await query.add({
-                filename: name ? name : `Untitled_${untitledDocsLength + 1}`,
+                filename,
                 content: '',
                 createdAt: serverTimestamp(),
                 modifiedAt: serverTimestamp(),
             })
+            setCreated({status: true, msg: `File "${filename}" was created!`})
             setDocumentId(doc.id)
             setShow(false)
             setDocName('')
@@ -46,8 +54,8 @@ export default function CreateDocModal({ show, setShow }) {
 
     return (
         <div>
-            {/* <AnimatePresence>
-                {loading && createAndOpen &&
+            <AnimatePresence>
+                {loading &&
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.5 }}
@@ -55,7 +63,7 @@ export default function CreateDocModal({ show, setShow }) {
                         className="fixed top-0 left-0 w-screen h-screen bg-gray-400 z-[51]"
                     />
                 }
-            </AnimatePresence> */}
+            </AnimatePresence>
             <Modal
                 size="sm"
                 active={show}
@@ -81,14 +89,14 @@ export default function CreateDocModal({ show, setShow }) {
                             }
                         }}
                     />
-                    {/* <div className='!text-sm pt-2'>
+                    <div className='!text-sm pt-2'>
                         <Checkbox id='create-and-open'
                             onChange={() => setCreateAndOpen(prev => !prev)}
                             color='gray'
                             size='xs'
                             text='Create and open'
                         />
-                    </div> */}
+                    </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button
@@ -116,6 +124,12 @@ export default function CreateDocModal({ show, setShow }) {
                     >
                         Create
                     </Button>
+                    <AlertCustom
+                        show={created}
+                        setTrigger={setCreated}
+                        color='green'>
+                        {created.msg}
+                    </AlertCustom>
                 </ModalFooter>
             </Modal>
         </div>

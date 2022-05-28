@@ -66,6 +66,7 @@ const TextEditor = ({ docId }) => {
     useEffect(() => {
         if (!quill) return
         quill.on('text-change', (_delta, _oldDelta, source) => {
+            console.log(quill.getContents())
             if (source !== 'user') return
 
             query.set({
@@ -98,17 +99,17 @@ const TextEditor = ({ docId }) => {
 
     return (
         <>
-            
-                <AnimatePresence>
+
+            <AnimatePresence >
                 {!overlayCompleted && <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className='bg-gray-500 h-screen w-screen fixed top-0 left-0 z-[54] flex items-center justify-center' >
-                        <InfinityLoader className="w-28 h-28" />
-                    </motion.div>}
-                    <motion.section ref={wrapperRef}></motion.section>
-                </AnimatePresence>
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className='bg-gray-500 h-screen w-screen fixed top-0 left-0 z-[54] flex items-center justify-center' >
+                    <InfinityLoader className="w-28 h-28" />
+                </motion.div>}
+            </AnimatePresence>
+            <motion.section ref={wrapperRef}></motion.section>
         </>
     )
 }

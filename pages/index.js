@@ -5,15 +5,14 @@ import Button from '@material-tailwind/react/Button'
 import Icon from '@material-tailwind/react/Icon'
 import { useSession, getSession } from 'next-auth/react'
 import Login from '../components/Login'
-import DocList from '../components/DocList'
 import dynamic from 'next/dynamic'
 
+const  DocList = dynamic(import('../components/DocList'), {ssr: false})
 const CreateDocModal = dynamic(() => import('../components/CreateDocModal'), { ssr: false })
 
 export default function Home() {
   const { data: _session, status } = useSession()
   const [showCreateDocModal, setCreateDocShowModal] = useState(false);
-  const [docAdded, setDocAdded] = useState(false)
 
   if (status === 'unauthenticated' || status === 'loading') return <Login />
 
@@ -45,7 +44,7 @@ export default function Home() {
         </div>
       </section>
       <DocList />
-      <CreateDocModal  show={showCreateDocModal} setShow={setCreateDocShowModal} />
+      <CreateDocModal show={showCreateDocModal} setShow={setCreateDocShowModal} />
     </div>
   )
 }

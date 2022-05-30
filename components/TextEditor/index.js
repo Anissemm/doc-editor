@@ -1,9 +1,10 @@
 import Quill from "quill"
 import 'quill/dist/quill.snow.css'
 import { useCallback, useEffect, useRef, useState } from "react"
+import Delta from 'quill-delta'
 
-import { fontSizes } from "./paramValues"
-import { registerFontSizes } from './functions'
+import { fontSizesWithPt, toolbarOptions } from "./paramValues"
+import { registerAttributors } from './functions'
 import { db } from "../../firebase"
 import { useSession } from "next-auth/react"
 import { AnimatePresence, motion } from "framer-motion"
@@ -11,25 +12,7 @@ import { useRouter } from "next/router"
 import InfinityLoader from "../../assets/svg/InfinityLoader"
 import { serverTimestamp } from "firebase/firestore"
 
-const toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],
-    ['blockquote', 'code-block'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    [{ 'script': 'sub' }, { 'script': 'super' }],
-    [{ 'indent': '-1' }, { 'indent': '+1' }],
-    [{ 'direction': 'rtl' }],
-
-    [{ 'size': fontSizes }],
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ 'color': [] }, { 'background': [] }],
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-
-    ['clean']
-]
-
-const TextEditor = ({ docId }) => {
+const TextEditor = ({ setContents }) => {
     const { data: session } = useSession()
     const router = useRouter()
 
@@ -43,7 +26,11 @@ const TextEditor = ({ docId }) => {
         if (editorSection === null) return
         editorSection.innerHTML = ''
 
-        registerFontSizes(fontSizes)
+        const optionsToRegister = {
+            fontSizes: fontSizesWithPt
+        }
+
+        registerAttributors(optionsToRegister)
 
         const editorWrapper = document.createElement('div')
         editorSection.append(editorWrapper)
@@ -66,8 +53,10 @@ const TextEditor = ({ docId }) => {
     useEffect(() => {
         if (!quill) return
         quill.on('text-change', (_delta, _oldDelta, source) => {
-            console.log(quill.getContents())
+
             if (source !== 'user') return
+            
+            setContents(quill.getContents())
 
             query.set({
                 content: JSON.stringify(quill.getContents()),
@@ -78,6 +67,7 @@ const TextEditor = ({ docId }) => {
 
     useEffect(() => {
         if (content && quill) {
+            setContents(new Delta(content.ops))
             quill.setContents(content)
             quill.enable()
         }

@@ -1,10 +1,9 @@
 import Quill from "quill"
 import 'quill/dist/quill.snow.css'
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Delta from 'quill-delta'
-
-import { fontSizesWithPt, toolbarOptions } from "./paramValues"
-import { registerAttributors } from './functions'
+import { fontSizesWithPx, toolbarOptions } from "./paramValues"
+import { registerAttributors, setRedo, setUndo } from './functions'
 import { db } from "../../firebase"
 import { useSession } from "next-auth/react"
 import { AnimatePresence, motion } from "framer-motion"
@@ -12,7 +11,8 @@ import { useRouter } from "next/router"
 import InfinityLoader from "../../assets/svg/InfinityLoader"
 import { serverTimestamp } from "firebase/firestore"
 
-const TextEditor = ({ setContents }) => {
+const TextEditor = ({ setContents, setQuillMounted, quillMounted }) => {
+
     const { data: session } = useSession()
     const router = useRouter()
 
@@ -24,10 +24,11 @@ const TextEditor = ({ setContents }) => {
 
     const wrapperRef = useCallback((editorSection) => {
         if (editorSection === null) return
+
         editorSection.innerHTML = ''
 
         const optionsToRegister = {
-            fontSizes: fontSizesWithPt
+            fontSizes: fontSizesWithPx
         }
 
         registerAttributors(optionsToRegister)
@@ -36,12 +37,18 @@ const TextEditor = ({ setContents }) => {
         editorSection.append(editorWrapper)
         const editor = new Quill(editorWrapper, {
             modules: {
-                toolbar: toolbarOptions
+                toolbar: toolbarOptions,
+                history: {
+                    delay: 50,
+                    maxStack: 500,
+                    userOnly: true
+                  }
             },
             theme: 'snow'
         })
 
         setQuill(editor)
+        setQuillMounted(true)
     }, [])
 
     useEffect(() => {
@@ -50,12 +57,37 @@ const TextEditor = ({ setContents }) => {
         })
     }, [])
 
+    useEffect(() => {    
+        if(quillMounted) {
+            const redoBtn = document.querySelector('.ql-redo')
+            const undoBtn = document.querySelector('.ql-undo')
+    
+            const handleUndo = () => {
+                quill.getContents()
+                quill.history.undo()
+            }
+    
+            const handleRedo = () => {
+                quill.history.redo()
+            }
+    
+            undoBtn.addEventListener('click', handleUndo)
+            redoBtn.addEventListener('click', handleRedo)
+    
+            return () => {
+    
+                undoBtn.removeEventListener('click', handleUndo)
+                redoBtn.removeEventListener('click', handleRedo)
+            }
+        }
+    }, [quillMounted])
+
     useEffect(() => {
         if (!quill) return
         quill.on('text-change', (_delta, _oldDelta, source) => {
 
             if (source !== 'user') return
-            
+
             setContents(quill.getContents())
 
             query.set({
@@ -92,7 +124,7 @@ const TextEditor = ({ setContents }) => {
 
             <AnimatePresence >
                 {!overlayCompleted && <motion.div
-                    initial={{ opacity: 0 }}
+                    initial={false}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className='bg-gray-500 h-screen w-screen fixed top-0 left-0 z-[54] flex items-center justify-center' >

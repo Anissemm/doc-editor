@@ -19,12 +19,12 @@ a {
 * {
   box-sizing: border-box;
 }
-.ql-container.ql-snow {
+.ql-container {
   display: flex;
   justify-content: center;
 }
 
-.ql-container.ql-snow .ql-editor {
+.ql-container .ql-editor {
   background-color: white;
   max-width: 210mm;
   min-height: 297mm;
@@ -34,13 +34,13 @@ a {
   margin: 20px;
 }
 
-.ql-container.ql-snow .ql-editor.landscape {
+.ql-container .ql-editor.landscape {
   background-color: white;
   max-width: 297mm;
   min-height: 210mm;
 }
 
-.ql-toolbar.ql-snow {
+.ql-toolbar {
   background-color: white;
   position: sticky;
   top: 64px;
@@ -51,12 +51,12 @@ a {
   flex-wrap: wrap;
 }
 
-.ql-snow .ql-picker.ql-size .ql-picker-label::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+.ql-picker.ql-size .ql-picker-label::before,
+.ql-picker.ql-size .ql-picker-item::before {
   content: attr(data-value) !important;
 }
 
-.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+.ql-toolbar .ql-picker.ql-expanded .ql-picker-options {
   overflow-y: auto;
   max-height: 140px;
 }
@@ -126,6 +126,15 @@ a {
   font-size: 72px;
 }
 
+.ql-undo svg, .ql-redo svg {
+  fill: #444;
+}
+
+.ql-undo:hover svg, .ql-redo:hover svg,
+.ql-undo:focus svg, .ql-redo:focus svg {
+  fill: #1d4ed8;
+}
+
 .ql-picker-label,
 .ql-indent,
 .ql-formats > button {
@@ -170,7 +179,7 @@ a {
     height: 210mm;
   }
 
-  .main-container .ql-toolbar.ql-snow,
+  .main-container .ql-toolbar,
   .main-container .editor-main-header {
     display: none;
   }

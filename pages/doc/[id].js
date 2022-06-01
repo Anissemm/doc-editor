@@ -13,6 +13,8 @@ const TextEditor = dynamic(() => import('../../components/TextEditor'), { ssr: f
 const Doc = () => {
     const { data: session, status } = useSession()
     const [contents, setContents] = useState(new Delta([]))
+    const [quillMounted, setQuillMounted] = useState(false)
+
 
     if (status === 'unauthenticated' || status === 'loading') return <Login />
 
@@ -25,8 +27,8 @@ const Doc = () => {
                 
             </Head>
             <div className='main-container bg-[#F8F9FA]'>
-                <EditorHeader contents={contents} userEmail={session?.user?.email} />
-                <TextEditor setContents={setContents} />
+                <EditorHeader quillMounted={quillMounted} contents={contents} userEmail={session?.user?.email} />
+                <TextEditor setQuillMounted={setQuillMounted} quillMounted={quillMounted} setContents={setContents} />
             </div>
         </>
     )

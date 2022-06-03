@@ -2,7 +2,7 @@ import { downloadFile } from "./functions"
 import { useWindowDimensions } from "../../hooks/useWindowDimensions"
 import { Button, Icon } from "@material-tailwind/react"
 
-const FileButtons = () => {
+const FileButtons = ({ filename }) => {
 
     return (
         <>

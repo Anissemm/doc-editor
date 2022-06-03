@@ -24,17 +24,17 @@ const menus = [
 ]
 
 
-const EditorToolbarHeader = ({ quillMounted, headerRef }) => {
+const EditorToolbarHeader = ({ quillMounted, headerRef, filename }) => {
     const [key, setKey] = useState('format')
-    const toolbarClientHeight = useRef(0)
+    const [toolbarClientHeight, setToolbarClientHeight] = useState(0)
 
     useEffect(() => {
         if (quillMounted) {
             const toolbar = document.querySelector('.ql-toolbar')
-            toolbarClientHeight.current = toolbar?.clientHeight
+            setToolbarClientHeight(toolbar?.clientHeight)
 
             const handleResize = () => {
-                toolbarClientHeight.current = toolbar?.clientHeight
+                setToolbarClientHeight(toolbar?.clientHeight)
             }
 
             window.addEventListener('resize', handleResize)
@@ -51,7 +51,7 @@ const EditorToolbarHeader = ({ quillMounted, headerRef }) => {
             opacity: 0
         },
         animate: {
-            height: toolbarClientHeight.current,
+            height: toolbarClientHeight,
             opacity: 1
         },
         exit: {
@@ -91,7 +91,7 @@ const EditorToolbarHeader = ({ quillMounted, headerRef }) => {
             <AnimatePresence exitBeforeEnter>
                 {key === 'file' &&
                     <motion.div
-                        style={{ height: toolbarClientHeight.current, top: headerRef.current.clientHeight }}
+                        style={{ height: toolbarClientHeight, top: headerRef.current.clientHeight }}
                         className="fixed w-screen left-0 bg-gradient-to-b from-white to-gray-300 shadow-xl overflow-hidden"
                         {...menuVariants}>
                         <motion.span
@@ -103,12 +103,12 @@ const EditorToolbarHeader = ({ quillMounted, headerRef }) => {
                             File
                         </motion.span>
                         <motion.div className='flex items-center justify-center gap-3 relative z-1' {...menuVariants}>
-                            <FileButtons />
+                            <FileButtons filename={filename} />
                         </motion.div>
                     </motion.div>}
                 {key === 'layout' &&
                     <motion.div
-                        style={{ height: toolbarClientHeight.current, top: headerRef.current.clientHeight }}
+                        style={{ height: toolbarClientHeight, top: headerRef.current.clientHeight }}
                         className="fixed w-screen left-0 bg-gradient-to-b from-white to-gray-300 shadow-xl overflow-hidden"
                         {...menuVariants}>
                         <motion.span
@@ -125,7 +125,7 @@ const EditorToolbarHeader = ({ quillMounted, headerRef }) => {
                     </motion.div>}
                 {key === 'view' &&
                     <motion.div
-                        style={{ height: toolbarClientHeight.current, top: headerRef.current.clientHeight }}
+                        style={{ height: toolbarClientHeight, top: headerRef.current.clientHeight }}
                         className="fixed w-screen left-0 bg-gradient-to-b from-white to-gray-300 shadow-xl overflow-hidden"
                         {...menuVariants}>
                         <motion.span

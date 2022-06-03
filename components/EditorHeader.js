@@ -100,7 +100,7 @@ function EditorHeader({ userEmail, quillMounted }) {
                     </motion.h2>
                 </div>
             </div>
-            <EditorToolbarHeader headerRef={headerRef} quillMounted={quillMounted} />
+            <EditorToolbarHeader filename={filename} headerRef={headerRef} quillMounted={quillMounted} />
         </header >
     )
 }

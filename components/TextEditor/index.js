@@ -1,6 +1,6 @@
 import Quill from "quill"
 import 'quill/dist/quill.snow.css'
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, useContext, useLayoutEffect } from "react"
 import Delta from 'quill-delta'
 import { fontSizesWithPx, toolbarOptions } from "./paramValues"
 import { registerAttributors, setRedo, setUndo } from './functions'
@@ -8,13 +8,20 @@ import { db } from "../../firebase"
 import { useSession } from "next-auth/react"
 import { AnimatePresence, motion } from "framer-motion"
 import { useRouter } from "next/router"
-import InfinityLoader from "../../assets/svg/InfinityLoader"
+import InfinityLoader from "../../public/svg/InfinityLoader"
 import { serverTimestamp } from "firebase/firestore"
+import { EditorContext } from "../../Providers/EditorProvider"
+import useDocumentLayoutUpdate from "../../hooks/useDocumentLayoutUpdate"
+import useQuillHistory from "../../hooks/useQuillHistory"
 
-const TextEditor = ({ setContents, setQuillMounted, quillMounted }) => {
-
+const TextEditor = () => {
     const { data: session } = useSession()
+
     const router = useRouter()
+
+    const editorCtx = useContext(EditorContext)
+    const [_contents, setContents] = editorCtx.useContents
+    const [quillMounted, setQuillMounted] = editorCtx.useQuillState
 
     const [quill, setQuill] = useState(null)
     const [content, setContent] = useState(null)
@@ -42,7 +49,7 @@ const TextEditor = ({ setContents, setQuillMounted, quillMounted }) => {
                     delay: 50,
                     maxStack: 500,
                     userOnly: true
-                  }
+                }
             },
             theme: 'snow'
         })
@@ -51,36 +58,10 @@ const TextEditor = ({ setContents, setQuillMounted, quillMounted }) => {
         setQuillMounted(true)
     }, [])
 
-    useEffect(() => {
-        query.get().then(snapshot => {
-            if (!snapshot.exists) router.replace('/', '/')
-        })
-    }, [])
+    useDocumentLayoutUpdate()
 
-    useEffect(() => {    
-        if(quillMounted) {
-            const redoBtn = document.querySelector('.ql-redo')
-            const undoBtn = document.querySelector('.ql-undo')
-    
-            const handleUndo = () => {
-                quill.getContents()
-                quill.history.undo()
-            }
-    
-            const handleRedo = () => {
-                quill.history.redo()
-            }
-    
-            undoBtn.addEventListener('click', handleUndo)
-            redoBtn.addEventListener('click', handleRedo)
-    
-            return () => {
-    
-                undoBtn.removeEventListener('click', handleUndo)
-                redoBtn.removeEventListener('click', handleRedo)
-            }
-        }
-    }, [quillMounted])
+
+    useQuillHistory(quill)
 
     useEffect(() => {
         if (!quill) return
@@ -98,16 +79,16 @@ const TextEditor = ({ setContents, setQuillMounted, quillMounted }) => {
     }, [quill])
 
     useEffect(() => {
-        if (content && quill) {
+        if (content && quillMounted) {
             setContents(new Delta(content.ops))
             quill.setContents(content)
             quill.enable()
         }
-    }, [content, quill])
+    }, [content, quillMounted])
 
     useEffect(() => {
         query.get().then(doc => {
-            const { content } = doc?.data()
+            const { content, layout } = doc?.data()
             if (content) {
                 const parsed = JSON.parse(content)
                 setContent(parsed)

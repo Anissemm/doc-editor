@@ -19,6 +19,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
 .ql-container {
   display: flex;
   justify-content: center;
@@ -34,21 +35,27 @@ a {
   margin: 20px;
 }
 
-.ql-container .ql-editor.landscape {
-  background-color: white;
-  max-width: 297mm;
-  min-height: 210mm;
+@media screen and (max-width: 640px) {
+  .ql-container .ql-editor {
+    margin: 10px;
+  }
 }
 
 .ql-toolbar {
   background-color: white;
   position: sticky;
-  top: 64px;
+  top: 48px;
   box-shadow: 0 0 5px #000;
   display: flex;
   justify-content: center;
   z-index: 49;
   flex-wrap: wrap;
+}
+
+@media screen and (min-width: 640px) {
+  .ql-toolbar {
+    top: 64px;
+  }
 }
 
 .ql-picker.ql-size .ql-picker-label::before,
@@ -126,12 +133,15 @@ a {
   font-size: 72px;
 }
 
-.ql-undo svg, .ql-redo svg {
+.ql-undo svg,
+.ql-redo svg {
   fill: #444;
 }
 
-.ql-undo:hover svg, .ql-redo:hover svg,
-.ql-undo:focus svg, .ql-redo:focus svg {
+.ql-undo:hover svg,
+.ql-redo:hover svg,
+.ql-undo:focus svg,
+.ql-redo:focus svg {
   fill: #1d4ed8;
 }
 
@@ -161,22 +171,27 @@ a {
     height: 297mm;
     background: none !important;
     padding: 0;
+    box-shadow: none;
   }
 
   @page {
     size: A4;
     margin: 0;
-    padding: 0;
   }
 
-  .main-container .ql-editor {
+  .main-container .ql-snow.ql-editor {
     width: 210mm;
-    height: 297mm;
+    height: auto;
+    box-shadow: none !important;
+  }
+
+  .main-container .main-container .ql-clipboard {
+    display: none;
   }
 
   .main-container .ql-editor.landscape {
-    width: 297mm;
-    height: 210mm;
+    width: auto;
+    height: 297mm;
   }
 
   .main-container .ql-toolbar,

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Header from '../components/Header'
 import Button from '@material-tailwind/react/Button'
@@ -6,13 +6,23 @@ import Icon from '@material-tailwind/react/Icon'
 import { useSession, getSession } from 'next-auth/react'
 import Login from '../components/Login'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 
-const  DocList = dynamic(import('../components/DocList'), {ssr: false})
+const AlertCustom = dynamic(() => import('../components/Alert'), { ssr: false })
+const DocList = dynamic(import('../components/DocList'), { ssr: false })
 const CreateDocModal = dynamic(() => import('../components/CreateDocModal'), { ssr: false })
 
 export default function Home() {
+  const router = useRouter()
+  const { query } = router
+console.log(router)
+  const [redirectError, setRedirectError] = useState({ 
+        status: query.redirect === 'unexisting_doc_error',
+        msg: "" })
+  
+
   const { data: _session, status } = useSession()
-  const [showCreateDocModal, setCreateDocShowModal] = useState(false);
+  const [showCreateDocModal, setCreateDocShowModal] = useState(false)
 
   if (status === 'unauthenticated' || status === 'loading') return <Login />
 
@@ -45,6 +55,14 @@ export default function Home() {
       </section>
       <DocList />
       <CreateDocModal show={showCreateDocModal} setShow={setCreateDocShowModal} />
+      <AlertCustom 
+        color='red' 
+        show={redirectError} 
+        setTrigger={setRedirectError} 
+        callback={() => router.replace('/', '/', { shallow: true })}
+        >
+          The requested document doesen't exist.
+        </AlertCustom>
     </div>
   )
 }

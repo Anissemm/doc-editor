@@ -1,21 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useContext } from 'react'
 import { useDocumentData } from "react-firebase-hooks/firestore"
 import { db } from "../firebase"
 import { useRouter } from 'next/router'
 import { Icon, Button } from '@material-tailwind/react'
-import Logo from '../assets/svg/logo'
+import Logo from './Logo'
 import { motion, AnimatePresence } from 'framer-motion'
-import InfinityLoader from '../assets/svg/InfinityLoader'
-import { downloadFile } from './TextEditor/functions'
+import InfinityLoader from '../public/svg/InfinityLoader'
 import { serverTimestamp } from 'firebase/firestore'
+import EditorToolbar from './EditorToolbar'
 import { useWindowDimensions } from '../hooks/useWindowDimensions'
-import EditorToolbarHeader from './EditorToolbarHeader'
 
 const loadVariants = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
 
-function EditorHeader({ userEmail, quillMounted }) {
+function EditorHeader({ userEmail }) {
     const router = useRouter()
+    const { width } = useWindowDimensions()
+
     const [filename, setFilename] = useState('')
+
     const textBoxSpanRef = useRef(null)
     const textBoxRef = useRef(null)
     const headerRef = useRef(null)
@@ -44,25 +46,24 @@ function EditorHeader({ userEmail, quillMounted }) {
     }
 
     return (
-        <header ref={headerRef} className='editor-main-header py-3 flex items-center sticky top-0 z-50 px-5 shadow-md bg-white justify-between'>
-            <div className='flex justify-between items-center text-gray-800'>
+        <header ref={headerRef} className='editor-main-header py-1 sm:!py-3 px-2  sm:!px-5 flex flex-col sm:!flex-row items-center sticky top-0 z-50 shadow-md bg-white justify-between'>
+            <div className='flex justify-between items-center text-gray-800 mr-auto sm:mx-0'>
                 <Button
                     ripple='dark'
                     color='transparent'
                     iconOnly={true}
                     aria-label="Go to previous page"
                     className='cursor-pointer flex items-center outline-none rounded-full justify-center pl-[10px]'
-                    onClick={() => { router.back() }}
+                    onClick={() => { router.replace('/', '/') }}
                 >
-
-                    <Icon name='arrow_back_ios' size="md" color="gray" />
+                    <Icon name='arrow_back_ios' size={width >= 640 ? 'xl' : 'lg' } color="gray" />
                 </Button>
-                <Logo className='cursor-pointer w-6 h-6 fill-blue-700' />
+                <Logo />
                 <div className='ml-2 sm:ml-5'>
-                    <motion.h2 className='flex flex-col items-start justify-between text-md ml-2 font-medium' aria-label={filename}>
+                    <motion.h2 className='flex flex-row sm:!flex-col items-center sm:!items-start justify-between text-md ml-2 font-medium' aria-label={filename}>
                         <motion.span
                             ref={textBoxRef}
-                            className='py-0 px-2 border-0 text-sm border-gray-400 outline-1 outline-gray-100 transition duration-1000 text-gray-600 focus:text-gray-800'
+                            className='py-0 px-1 sm:!px-2 border-0 text-sm border-gray-400 outline-1 outline-gray-100 transition duration-1000 text-gray-600 focus:text-gray-800'
                             name="filename"
                             role="textbox"
                             contentEditable={true}
@@ -100,7 +101,7 @@ function EditorHeader({ userEmail, quillMounted }) {
                     </motion.h2>
                 </div>
             </div>
-            <EditorToolbarHeader filename={filename} headerRef={headerRef} quillMounted={quillMounted} />
+            <EditorToolbar filename={filename} headerRef={headerRef} />
         </header >
     )
 }

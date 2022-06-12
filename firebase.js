@@ -1,6 +1,6 @@
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import 'firebase/compat/firestore'
+import 'firebase/compat/auth'
 
 const firebaseConfig = {
     apiKey: "AIzaSyDuVGQM9BEg-Edo8Suzxkw6MjgxD7Eclm0",
@@ -9,11 +9,13 @@ const firebaseConfig = {
     storageBucket: "document-editor-e9aa3.appspot.com",
     messagingSenderId: "1047768577454",
     appId: "1:1047768577454:web:1ab07dd28bd4e2acc8043f"
-}
+};
+
 
 const app = !firebase.apps.length
     ? firebase.initializeApp(firebaseConfig)
     : firebase.app()
 
-export const db = app.firestore()
+export const auth = app.auth()
 
+export const db = app.firestore()

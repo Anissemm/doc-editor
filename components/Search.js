@@ -3,7 +3,7 @@ import useSearch from "../hooks/useDocsSearch"
 import Icon from '@material-tailwind/react/Icon'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
-import DocIcon from '../assets/svg/DocSvg'
+import DocIcon from '../public/svg/DocSvg'
 
 const scaleVariants = {
     initial: { scale: 0.5, opacity: 0 },
@@ -25,7 +25,7 @@ const Search = () => {
     return (
         <>
             <div
-                tabIndex='1'
+                tabIndex={1}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 className='flex relative flex-grow items-center mx-5 px-4 py-0.5 z-2 bg-gray-100 rounded-md md:mx-20 text-gray-400 focus-within:shadow-md  focus-within:z-50 focus-within:bg-gray-100 focus-within:text-gray-500 transition-all'>

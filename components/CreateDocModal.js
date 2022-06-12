@@ -18,13 +18,16 @@ const AlertCustom = dynamic(import("./Alert"), { ssr: false })
 export default function CreateDocModal({ show, setShow }) {
     const { data: session } = useSession()
     const router = useRouter()
+    
     const [docName, setDocName] = useState('')
     const [documentId, setDocumentId] = useState(null)
-    const query = db.collection('userDocs').doc(session.user?.email).collection('docs')
-    const untitledDocsLength = useUntitledDocsLength(session)
     const [loading, setLoading] = useState(false)
     const [createAndOpen, setCreateAndOpen] = useState(false)
     const [created, setCreated] = useState({status: false, msg: ''})
+    
+    const query = db.collection('userDocs').doc(session.user?.email).collection('docs')
+
+    const untitledDocsLength = useUntitledDocsLength(session)
 
     const createDocument = async (name) => {
         const filename = name ? name : `Untitled_${untitledDocsLength + 1}`
@@ -35,6 +38,13 @@ export default function CreateDocModal({ show, setShow }) {
             const doc = await query.add({
                 filename,
                 content: '',
+                layout: {
+                    orientation: 'portrait',
+                    margins: {
+                        vertical: 1,
+                        horizontal: 1
+                    }
+                },
                 createdAt: serverTimestamp(),
                 modifiedAt: serverTimestamp(),
             })
@@ -89,7 +99,7 @@ export default function CreateDocModal({ show, setShow }) {
                             }
                         }}
                     />
-                    <div className='!text-sm pt-2'>
+                    <div className='!text-sm pt-3 pl-2'>
                         <Checkbox id='create-and-open'
                             onChange={() => setCreateAndOpen(prev => !prev)}
                             color='gray'

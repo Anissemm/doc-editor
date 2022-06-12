@@ -5,16 +5,13 @@ import dynamic from 'next/dynamic'
 import Delta from 'quill-delta'
 import Head from 'next/head'
 
-
-
 const EditorHeader = dynamic(() => import('../../components/EditorHeader'), { ssr: false })
 const TextEditor = dynamic(() => import('../../components/TextEditor'), { ssr: false })
+import EditorProvider from '../../Providers/EditorProvider'
+import { db } from '../../firebase'
 
 const Doc = () => {
     const { data: session, status } = useSession()
-    const [contents, setContents] = useState(new Delta([]))
-    const [quillMounted, setQuillMounted] = useState(false)
-
 
     if (status === 'unauthenticated' || status === 'loading') return <Login />
 
@@ -24,12 +21,14 @@ const Doc = () => {
                 <link rel="stylesheet" href="https://unpkg.com/gutenberg-css@0.6" media="print" />
                 <link rel="stylesheet" href="https://unpkg.com/gutenberg-css@0.6/dist/themes/oldstyle.min.css" media="print" />
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-                
+
             </Head>
-            <div className='main-container bg-[#F8F9FA]'>
-                <EditorHeader quillMounted={quillMounted} contents={contents} userEmail={session?.user?.email} />
-                <TextEditor setQuillMounted={setQuillMounted} quillMounted={quillMounted} setContents={setContents} />
-            </div>
+            <EditorProvider session={session}>
+                <div className='main-container bg-[#F8F9FA]'>
+                    <EditorHeader userEmail={session?.user?.email} />
+                    <TextEditor />
+                </div>
+            </EditorProvider>
         </>
     )
 }
@@ -37,7 +36,23 @@ const Doc = () => {
 export default Doc
 
 export const getServerSideProps = async (context) => {
+    const { id } = context.params
     const session = await getSession(context)
+
+    const doc = await db.collection('userDocs')
+        .doc(session?.user?.email)
+        .collection('docs')
+        .doc(id)
+        .get()
+
+    if (!doc.exists) {
+        return {
+            redirect: {
+                destination: '/?redirect=unexisting_doc_error',
+                permanent: false,
+              },
+        }
+    }
 
     return {
         props: {

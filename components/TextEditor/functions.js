@@ -34,9 +34,9 @@ export const registerAttributors = ({ fontSizes, align}) => {
     console.log(Quill.imports)
 }
 
-export const downloadFile = async (filename) => {
+export const downloadFile = async (filename, options = {}) => {
     const htmlString = document.querySelector('.ql-editor').innerHTML
-    const blob = await HTMLtoDOCX(htmlString);
+    const blob = await HTMLtoDOCX(htmlString, false, options);
     FileSaver.saveAs(blob, `${filename}.docx`)
 }
 

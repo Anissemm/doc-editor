@@ -295,12 +295,6 @@ const DocList = () => {
 
                                     })
                                 }
-                                {/* <Button className="arr-btn" >Created at (Desc)</Button>
-                                <Button className="arr-btn" >Created at (Asc)</Button>
-                                <Button className="arr-btn" >modified at (Desc)</Button>
-                                <Button className="arr-btn" >Created at (Asc)</Button>
-                                <Button className="arr-btn" >[A-Z]</Button>
-                                <Button className="arr-btn" >[Z-A]</Button> */}
                             </motion.div>}
                     </AnimatePresence>
                 </div>
@@ -312,7 +306,7 @@ const DocList = () => {
                     transition={{ duration: 0.2 }}
                     className={`overflow-hidden scrollbar-thin scrollbar-rounded hover:scrollbar-thumb-gray-500 scrollbar-thumb-transparent list-none mt-5 px-5`}>
                     <AnimatePresence>
-                        <LayoutGroup inherit key={'doc-list'}>
+                        <LayoutGroup inherit>
                             {docs}
                             {(docs.length === 0 && docsLoading) &&
                                 <motion.div {...loadVariants} className="flex items-center justify-center w-full h-full">

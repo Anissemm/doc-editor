@@ -15,7 +15,7 @@ const CreateDocModal = dynamic(() => import('../components/CreateDocModal'), { s
 export default function Home() {
   const router = useRouter()
   const { query } = router
-console.log(router)
+
   const [redirectError, setRedirectError] = useState({ 
         status: query.redirect === 'unexisting_doc_error',
         msg: "" })

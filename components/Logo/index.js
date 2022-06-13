@@ -1,6 +1,7 @@
-import GlowOverflow from "../../public/svg/GlowOverflow"
 import style from './logo.module.css'
 import { motion } from "framer-motion"
+import { useDocumentScrollDimensions } from '../../hooks/useWindowDimensions'
+import { useEffect, useState } from 'react'
 
 const variants = {
     hidden: {
@@ -15,16 +16,45 @@ const variants = {
     })
 }
 
-const Logo = ({width = 40, height = 20, loginPage = false, srOnly = true }) => {
+const Logo = ({ width = 40, height = 20, loginPage = false, srOnly = true, scrollHeight = '', form }) => {
     return (
-        <motion.h1 className='flex items-center flex-col'>
-            <motion.div className='relative' style={{width, height}}>
-                <motion.div variants={variants} initial='hidden' animate='visible' custom={0} className={`${style.glow} ${loginPage ? style.loginPage : ''}`} />
-                <motion.img variants={variants} initial='hidden' animate='visible' custom={1}  src='/image/logo.png' className='object-fit relative z-2' />
-            </motion.div>
-            <motion.span variants={variants} initial='hidden' animate='visible' custom={2}  className={`block z-1 relative text-5xl select-none ${srOnly ? 'sr-only' : ''}`}>Infinity</motion.span>
-            {!srOnly && <motion.small variants={variants} initial='hidden' animate='visible' custom={3}  className="italic pt-1 underline decoration-2 decoration-orange-700 underline-offset-2">A Cool and Tiny Text Editor</motion.small>}
-        </motion.h1>
+        <>
+            {loginPage && <motion.div
+                layout
+                custom={0}
+                className={`${style.glow} ${style.loginPage} fixed top-0 left-auto sm:left-0 !w-[50vw] rounded-full`} />}
+
+            <motion.h1 layout className='flex items-center flex-col' >
+                <motion.div layout className='relative' style={{ width, height }}>
+                    {!loginPage && <motion.div
+                        layout
+                        variants={variants}
+                        initial='hidden'
+                        animate='visible'
+                        custom={0}
+                        className={`${style.glow}`} />}
+                    <motion.img
+                        variants={variants}
+                        initial='hidden'
+                        animate='visible'
+                        custom={1}
+                        src='/image/logo.png'
+                        className='object-fit relative z-2' />
+                </motion.div>
+                <motion.span
+                    variants={variants}
+                    initial='hidden'
+                    animate='visible'
+                    custom={2}
+                    className={`block z-1 relative text-5xl select-none ${srOnly ? 'sr-only' : ''}`}>Infinity</motion.span>
+                {!srOnly && <motion.small
+                    variants={variants}
+                    initial='hidden'
+                    animate='visible'
+                    custom={3}
+                    className="italic pt-1 font-light">A Cool and Tiny Text Editor</motion.small>}
+            </motion.h1>
+        </>
     )
 }
 

@@ -40,8 +40,11 @@ const SignInForm = ({ setForm }) => {
                     <Input outline={true} color='gray' size="md" id="sign-in-password" type="text" name="password" placeholder='Your Password' />
                 </div>
                 <div className='mb-2.5'>
-                    <button type="button" className='bg-transparent text-sm border-none hover:text-gray-500 focus:text-gray-500 transition 
-                    duration-200 ml-auto float-right pb-2 underline'>
+                    <button
+                        onClick={() => {setForm('reset-password')}}
+                        type="button"
+                        className='bg-transparent text-sm border-none hover:text-gray-500 focus:text-gray-500 transition 
+                            duration-200 ml-auto float-right pb-2 underline'>
                         Forgot Password?
                     </button>
                     <MotionButton

@@ -10,6 +10,7 @@ const SignInForm = dynamic(() => import("./SignInForm"), { ssr: false })
 const SignUpForm = dynamic(() => import("./SignUpForm"), { ssr: false })
 const EmailVerificationComplete = dynamic(() => import("./EmailVerificationComplete"), { ssr: false })
 const EmailVerificationSent = dynamic(() => import("./EmailVerificationSent"), { ssr: false })
+const ResetPassword = dynamic(() => import("./PasswordReset"), { ssr: false })
 
 const useEmailVerifComplete = () => {
     const router = useRouter()
@@ -50,6 +51,7 @@ const Login = () => {
                         {form === 'signin' && <SignInForm setForm={setForm} />}
                         {form === 'verification-complete' && <EmailVerificationComplete setForm={setForm} />}
                         {form === 'verification-mail-sent' && <EmailVerificationSent setForm={setForm} email={email} />}
+                        {form === 'reset-password' && <ResetPassword setForm={setForm} />}
                     </LayoutGroup>
                 </AnimatePresence>
             </div>

@@ -63,9 +63,6 @@ const SingUpForm = ({ setForm, setEmail }) => {
       <Formik
         initialValues={{ email: '', username: '', password: '', repeatPassword: '' }}
         validationSchema={sigUpValidationSchema}
-        onChange={() => {
-
-        }}
         onSubmit={async (values, { setSubmitting }) => {
           const { password, email, username } = values
           setEmail(email)

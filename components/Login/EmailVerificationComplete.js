@@ -1,5 +1,6 @@
 import { Button } from '@material-tailwind/react'
 import { motion } from 'framer-motion'
+import useClearQueryIn from '../../hooks/useClearQueryIn'
 
 const loginVariants = {
     hidden: i => ({
@@ -16,7 +17,11 @@ const loginVariants = {
     })
 }
 
+
+
 const EmailVerificationComplete = ({ setForm }) => {
+    const secondsLeft = useClearQueryIn(() => { setForm('signin') })
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -25,8 +30,8 @@ const EmailVerificationComplete = ({ setForm }) => {
             transition={{ duration: 0.5 }}
             className="z-1 relative font-['Poppins'] mt-10 sm:my-0 font-semibold flex flex-col justify-center items-center text-gray-400">
             <h2 className='text-2xl' variants={loginVariants} custom={0}>Congratulations!</h2>
-            <p className='p-5 font-normal'>
-                Your Email address has been verified!
+            <p className='py-5 px-14 font-normal'>
+                Your Email address has been verified!<br />You will redirect automatically to home in {secondsLeft} seconds.
             </p>
             <Button
                 color='blueGray'

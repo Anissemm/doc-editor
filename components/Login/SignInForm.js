@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Input, Button } from '@material-tailwind/react'
 import { motion } from 'framer-motion'
 import { signIn } from 'next-auth/react'
@@ -24,6 +24,9 @@ const loginVariants = {
 const MotionButton = motion(Button)
 
 const SignInForm = ({ setForm }) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
     return (
         <motion.div
             layoutId='form'
@@ -32,19 +35,43 @@ const SignInForm = ({ setForm }) => {
             exit={{ opacity: 0 }}
             className="z-1 relative mt-10 sm:my-0 font-semibold flex flex-col justify-center items-center text-gray-400">
             <h2 className="sr-only" variants={loginVariants} custom={0}>Sign in</h2>
-            <form className='w-[220px] !text-md'>
-                <div className='mb-2.5 !text-white'>
-                    <Input outline={true} color='gray' size="md" type="email" id="sign-in-mail" name="email" placeholder='Your Email' />
+
+            <form className='w-[220px] !text-md' onSubmit={(e) => {
+                e.preventDefault()
+                signIn('credentials', { redirect: false, email, password })
+            }}>
+                <div className='mb-2.5 signin-input !text-white'>
+                    <Input
+                        name="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value) }}
+                        id="signin-email"
+                        outline={true}
+                        color='gray'
+                        size="md"
+                        placeholder='Your Email'
+                    />
                 </div>
-                <div className='mb-2.5'>
-                    <Input outline={true} color='gray' size="md" id="sign-in-password" type="text" name="password" placeholder='Your Password' />
+                <div className='mb-2.5 signin-input'>
+                    <Input
+                        name="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value) }}
+                        id="signin-password"
+                        color='gray'
+                        size="md"
+                        outline={true}
+                        placeholder='Your Password'
+                    />
                 </div>
                 <div className='mb-2.5'>
                     <button
-                        onClick={() => {setForm('reset-password')}}
+                        onClick={() => { setForm('reset-password') }}
                         type="button"
                         className='bg-transparent text-sm border-none hover:text-gray-500 focus:text-gray-500 transition 
-                            duration-200 ml-auto float-right pb-2 underline'>
+                            duration-200 ml-auto float-right pb-4 underline'>
                         Forgot Password?
                     </button>
                     <MotionButton
@@ -60,7 +87,6 @@ const SignInForm = ({ setForm }) => {
                         ripple="light"
                         className='mt-3 bg-gray-700 shadow-sm'
                         aria-label='Sing in with Google'
-                        onClick={(e) => { e.preventDefault() }}
                     >
                         Sign in
                     </MotionButton>

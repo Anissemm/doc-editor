@@ -22,9 +22,9 @@ const Logo = ({ width = 40, height = 20, loginPage = false, srOnly = true, scrol
             {loginPage && <motion.div
                 layout
                 custom={0}
-                className={`${style.glow} ${style.loginPage} fixed top-0 left-auto sm:left-0 !w-[50vw] rounded-full`} />}
+                className={`${style.glow} ${loginPage ? style.loginPage : ""} fixed top-0 left-auto sm:left-0 !w-[50vw] rounded-full`} />}
 
-            <motion.h1 layout className='flex items-center flex-col' >
+            <motion.h1 layout className='flex justify-center items-center flex-col' >
                 <motion.div layout className='relative' style={{ width, height }}>
                     {!loginPage && <motion.div
                         layout

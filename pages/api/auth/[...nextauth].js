@@ -3,7 +3,8 @@ import GoogleProvider from "next-auth/providers/google"
 import YandexProvider from 'next-auth/providers/yandex'
 import CredentialsProvider from "next-auth/providers/credentials";
 import { FirestoreAdapter } from "@lowfront/firebase-adapter"
-import { db } from "../../../firebase"
+import { db, auth } from "../../../firebase"
+import { signIn } from "next-auth/react";
 
 export default NextAuth({
     providers: [
@@ -21,30 +22,64 @@ export default NextAuth({
         YandexProvider({
             clientId: process.env.YANDEX_CLIENT_ID,
             clientSecret: process.env.YANDEX_CLIENT_SECRET
-        })
-        // CredentialsProvider({
-        //     name: 'Using Email & Password',
-        //     credentials: {
-        //         username: { label: "Username or Email", type: "text", placeholder: "user or user@mail.com" },
-        //         password: { label: "Password", type: "password" }
-        //     },
-        //     async authorize(credentials, req) {
-        //         try {
-        //             const res = await getDocFromServer(db, 'credentialsUser', 'email')
-        //             console.log(res)
-        //             const user = ''
-        //             // If no error and we have user data, return it
-        //             if (res.ok && user) {
-        //                 return user
-        //             }
-        //             // Return null if user data could not be retrieved
-        //             return null
-        //         } catch (err) {
+        }),
+        CredentialsProvider({
+            name: 'Using Email & Password',
+            credentials: {
+                email: { label: "Email", type: "text", placeholder: "Your Email" },
+                password: { label: "Password", type: "password" }
+            },
+            async authorize(credentials, req) {
+                const { email, password } = credentials
 
-        //             return null
-        //         }
-        //     }
-        // })
+                try {
+                    const credentialUser = await auth.signInWithEmailAndPassword(email, password)
+                    const { user } = credentialUser
+                    console.log(user)
+
+                    if (!user.emailVerified) {
+                        throw new Error('mail-not-verified')
+                    }
+
+                    if (user) {
+                        return {
+                            email: user.email,
+                            image: user.photoURL,
+                            name: user.displayName,
+                            id: user.uid
+                        }
+                    }
+                } catch (err) {
+                    return new Error(err.message)
+                }
+            }
+        })
     ],
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user?.id) {
+                token.user = user
+            }
+
+            return token
+        },
+        async session({ session, token }) {
+            if (token) {
+                session.user = token.user
+            }
+            return session
+        }
+    },
+    secret: 'secret',
+    session: { strategy: 'jwt' },
+    jwt: {
+        secret: 'secret',
+        encrypted: true
+    },
+    events: {
+        async singOut() {
+            auth.signOut()
+        }
+    },
     adapter: FirestoreAdapter(db)
 })

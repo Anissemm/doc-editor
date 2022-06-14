@@ -1,9 +1,5 @@
 import { useLayoutEffect, useContext } from "react"
 import { EditorContext } from "../Providers/EditorProvider"
-import { db } from "../firebase"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/router"
-
 
 const useDocumentLayoutUpdate = () => {
     const editorCtx = useContext(EditorContext)

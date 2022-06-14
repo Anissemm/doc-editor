@@ -90,7 +90,7 @@ const SingUpForm = ({ setForm, setEmail }) => {
                     type="email"
                     id="sign-up-mail"
                     name="email"
-                    error={(formik.touched.email && formik.errors.email) || (responseError && responseError)}
+                    error={(formik.touched.email && formik.errors.email) || (responseError ? responseError : '')}
                     onChange={(e) => {
                       setResponseError(false)
                       formik.handleChange(e)

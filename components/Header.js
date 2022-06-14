@@ -7,6 +7,7 @@ import { useState } from 'react'
 
 const Header = () => {
     const { data: session } = useSession()
+    console.log(session)
 
     return (
         <header className='py-3 flex items-center sticky top-0 z-50 px-5 shadow-md bg-white'>

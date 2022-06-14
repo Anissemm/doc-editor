@@ -215,10 +215,12 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-.signup-input > div {
+.signup-input > div,
+.signin-input > div {
   height: auto !important;
 }
 
-.signup-input > div > input {
+.signup-input > div > input,
+.signin-input > div > input {
   color: rgba(238, 238, 238, 0.6) !important;
 }

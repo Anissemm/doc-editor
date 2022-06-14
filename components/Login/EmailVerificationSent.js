@@ -25,9 +25,9 @@ const EmailVerificationSent = ({ setForm, email }) => {
             transition={{ duration: 0.5 }}
             className="p-5 z-1 relative font-['Poppins'] mt-10 sm:my-0 font-semibold flex flex-col justify-center items-center text-gray-400">
             <h2 variants={loginVariants} custom={0}>Email Verification Sent</h2>
-            <p className='font-normal py-5'>
+            <p className='font-normal py-5 px-14'>
                 We've sent a verification email to <span className='font-bold'>{email}</span>. Check your account and click the link to activate your account.
-                <span className="italic"> (Email can be sent to junk folder)</span>
+                <span className="italic"> If you don't receive this email, please check your junk folder or contact us for further assistance.</span>
             </p>
             <Button
                 color='blueGray'

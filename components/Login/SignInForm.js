@@ -23,7 +23,7 @@ const loginVariants = {
 
 const MotionButton = motion(Button)
 
-const SignInForm = ({ setForm }) => {
+const SignInForm = ({ setForm, setError }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -33,15 +33,24 @@ const SignInForm = ({ setForm }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="z-1 relative mt-10 sm:my-0 font-semibold flex flex-col justify-center items-center text-gray-400">
+            className="z-1 relative mt-5 sm:my-0 font-semibold flex flex-col justify-center items-center text-gray-400">
             <h2 className="sr-only" variants={loginVariants} custom={0}>Sign in</h2>
 
-            <form className='w-[220px] !text-md' onSubmit={(e) => {
-                e.preventDefault()
-                signIn('credentials', { redirect: false, email, password })
-            }}>
+            <form
+                className='w-[220px] !text-md'
+                onChange={() => setError(null)}
+                onSubmit={async (e) => {
+                    e.preventDefault()
+                    const result = await signIn('credentials', { redirect: false, email, password })
+
+                    if (result.error) {
+                        setError(result.error)
+                    }
+
+                }}>
                 <div className='mb-2.5 signin-input !text-white'>
                     <Input
+                        autoComplete='off'
                         name="email"
                         type="email"
                         value={email}
@@ -55,6 +64,7 @@ const SignInForm = ({ setForm }) => {
                 </div>
                 <div className='mb-2.5 signin-input'>
                     <Input
+                        autoComplete='off'
                         name="password"
                         type="password"
                         value={password}

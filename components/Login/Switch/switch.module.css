@@ -1,0 +1,43 @@
+.switchUnderline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  transform: translateZ(0);
+  filter: blur(2px);
+  background: linear-gradient(
+    to left,
+    #ffa55c,
+    #ea2360,
+    #f6828c,
+    #f1514f,
+    #ffa55c,
+    #f1514f,
+    #f6828c,
+    #ea2360,
+    #ffa55c
+  );
+  background-size: 200% 200%;
+  animation: animateGlow 6s linear infinite;
+}
+
+@keyframes animateGlow {
+  0% {
+    background-position: 0% 50%;
+    opacity: 1;
+  }
+
+  50% {
+    background-position: 100% 100%;
+    opacity: 0.7;
+  }
+
+  100% {
+    background-position: 200% 50%;
+    opacity: 1;
+  }
+}

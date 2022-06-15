@@ -13,7 +13,6 @@ const verifyEmail = async (req, res) => {
         }
 
     } catch (err) {
-        console.log(err)
         return res.redirect(`/?mode=${mode}&verificationComplete=false&error=${err.code}`)
     }
 }

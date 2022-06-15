@@ -33,7 +33,7 @@ const sigUpValidationSchema = yup.object({
   repeatPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match').required('Confirm password required')
 })
 
-const SingUpForm = ({ setForm, setEmail }) => {
+const SingUpForm = ({ setForm, setEmail, setError }) => {
   const [responseError, setResponseError] = useState(false)
 
   const createUser = async (email, username, password) => {
@@ -45,10 +45,7 @@ const SingUpForm = ({ setForm, setEmail }) => {
 
     } catch (error) {
       var errorCode = error.code;
-      if (errorCode == 'auth/email-already-in-use') {
-        setResponseError('Email already in use')
-
-      }
+        setError(errorCode)
     }
   }
 
@@ -58,7 +55,7 @@ const SingUpForm = ({ setForm, setEmail }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="z-1 relative font-['Poppins'] mt-10 sm:my-0 font-semibold flex flex-col justify-center items-center text-gray-400">
+      className="z-1 relative font-['Poppins'] mt-5 sm:my-0 font-semibold flex flex-col justify-center items-center text-gray-400">
       <h2 className="sr-only" variants={loginVariants} custom={0}>Sign Up</h2>
       <Formik
         initialValues={{ email: '', username: '', password: '', repeatPassword: '' }}
@@ -90,7 +87,7 @@ const SingUpForm = ({ setForm, setEmail }) => {
                     type="email"
                     id="sign-up-mail"
                     name="email"
-                    error={(formik.touched.email && formik.errors.email) || (responseError ? responseError : '')}
+                    error={formik.touched.email && formik.errors.email}
                     onChange={(e) => {
                       setResponseError(false)
                       formik.handleChange(e)

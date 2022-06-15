@@ -21,10 +21,12 @@ export default function Home() {
         msg: "" })
   
 
-  const { data: _session, status } = useSession()
+  const { data: session, status } = useSession()
   const [showCreateDocModal, setCreateDocShowModal] = useState(false)
 
   if (status === 'unauthenticated' || status === 'loading') return <Login />
+
+  if (session?.user?.isCredentials && !session?.user?.emailVerified) return <Login isNotEmailVerified />
 
   return (
     <div>

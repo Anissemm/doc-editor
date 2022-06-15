@@ -1,5 +1,6 @@
 import { Button } from '@material-tailwind/react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/router'
 import useClearQueryIn from '../../hooks/useClearQueryIn'
 
 const loginVariants = {
@@ -18,8 +19,8 @@ const loginVariants = {
 }
 
 
-
 const EmailVerificationComplete = ({ setForm }) => {
+    const router = useRouter()
     const secondsLeft = useClearQueryIn(() => { setForm('signin') })
 
     return (
@@ -43,7 +44,10 @@ const EmailVerificationComplete = ({ setForm }) => {
                 ripple="light"
                 className='mt-3 bg-gray-700 shadow-sm max-w-[220px]'
                 aria-label='Sing in with Email and Password'
-                onClick={() => { setForm('signin') }}
+                onClick={() => {
+                    setForm('signin')
+                    router.push('/', { shallow: true })
+                }}
             >
                 Go Back</Button>
         </motion.div>

@@ -4,7 +4,6 @@ import YandexProvider from 'next-auth/providers/yandex'
 import CredentialsProvider from "next-auth/providers/credentials";
 import { FirestoreAdapter } from "@lowfront/firebase-adapter"
 import { db, auth } from "../../../firebase"
-import { signIn } from "next-auth/react";
 
 export default NextAuth({
     providers: [
@@ -30,32 +29,35 @@ export default NextAuth({
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
-                const { email, password } = credentials
-
                 try {
+                    const { email, password } = credentials
                     const credentialUser = await auth.signInWithEmailAndPassword(email, password)
                     const { user } = credentialUser
-                    console.log(user)
 
-                    if (!user.emailVerified) {
-                        throw new Error('mail-not-verified')
+                    return {
+                        email: user.email,
+                        emailVerified: user.emailVerified,
+                        image: user.photoURL,
+                        name: user.displayName,
+                        id: user.uid,
+                        isCredentials: true
                     }
 
-                    if (user) {
-                        return {
-                            email: user.email,
-                            image: user.photoURL,
-                            name: user.displayName,
-                            id: user.uid
-                        }
+                } catch (error) {
+                    if (error.hasOwnProperty('code')) {
+                        throw new Error(error.code)
                     }
-                } catch (err) {
-                    return new Error(err.message)
+                    throw error
                 }
+
             }
         })
     ],
     callbacks: {
+        async sigIn(props) {
+            if (props.user) return true
+            return false
+        },
         async jwt({ token, user }) {
             if (user?.id) {
                 token.user = user
@@ -64,7 +66,7 @@ export default NextAuth({
             return token
         },
         async session({ session, token }) {
-            if (token) {
+            if (token.user) {
                 session.user = token.user
             }
             return session
@@ -75,11 +77,6 @@ export default NextAuth({
     jwt: {
         secret: 'secret',
         encrypted: true
-    },
-    events: {
-        async singOut() {
-            auth.signOut()
-        }
     },
     adapter: FirestoreAdapter(db)
 })

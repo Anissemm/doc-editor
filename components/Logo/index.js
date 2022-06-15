@@ -1,7 +1,5 @@
 import style from './logo.module.css'
 import { motion } from "framer-motion"
-import { useDocumentScrollDimensions } from '../../hooks/useWindowDimensions'
-import { useEffect, useState } from 'react'
 
 const variants = {
     hidden: {
@@ -25,7 +23,7 @@ const Logo = ({ width = 40, height = 20, loginPage = false, srOnly = true, scrol
                 className={`${style.glow} ${loginPage ? style.loginPage : ""} fixed top-0 left-auto sm:left-0 !w-[50vw] rounded-full`} />}
 
             <motion.h1 layout className='flex justify-center items-center flex-col' >
-                <motion.div layout className='relative' style={{ width, height }}>
+                <motion.div layout className='relative px-6 xs:!p-0' style={{ maxWidth: width, height }}>
                     {!loginPage && <motion.div
                         layout
                         variants={variants}
@@ -39,20 +37,20 @@ const Logo = ({ width = 40, height = 20, loginPage = false, srOnly = true, scrol
                         animate='visible'
                         custom={1}
                         src='/image/logo.png'
-                        className='object-fit relative z-2' />
+                        className='object-fit relative z-2 w-full' />
                 </motion.div>
                 <motion.span
                     variants={variants}
                     initial='hidden'
                     animate='visible'
                     custom={2}
-                    className={`block z-1 relative text-5xl select-none ${srOnly ? 'sr-only' : ''}`}>Infinity</motion.span>
+                    className={`block z-1 relative -top-5 xs:!top-0 text-4xl xs:!text-5xl select-none ${srOnly ? 'sr-only' : ''}`}>Infinity</motion.span>
                 {!srOnly && <motion.small
                     variants={variants}
                     initial='hidden'
                     animate='visible'
                     custom={3}
-                    className="italic pt-1 font-light">A Cool and Tiny Text Editor</motion.small>}
+                    className="relative italic pt-1 font-light -top-5 xs:!top-0  text-lg xs:!text-xl">A Cool and Tiny Text Editor</motion.small>}
             </motion.h1>
         </>
     )

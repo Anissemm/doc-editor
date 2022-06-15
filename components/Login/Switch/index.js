@@ -1,9 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import style from './switch.module.css'
 
 const Switch = ({ setForm, form }) => {
     return (
-        < motion.div className='w-[230px] flex mx-auto' >
+        <motion.div className='w-[220px] flex mx-auto mb-8' >
             {[{ key: 'signin', description: 'Sign In' }, { key: 'signup', description: 'Sign Up' }].map(btn => {
                 return (
                     <motion.button key={btn.key} className={`${form !== btn.key ? 'text-gray-500' : 'text-white'} hover:text-gray-200 transition 
@@ -12,7 +13,7 @@ const Switch = ({ setForm, form }) => {
                             {btn.description}
                         </span>
                         {form === btn.key && <motion.span
-                            className='h-1 w-full absolute bottom-0 bg-white rounded-md shadow-2xl shadow-white'
+                            className={`${style.switchUnderline} h-1 w-full absolute bottom-0 bg-white rounded-md shadow-2xl shadow-white`}
                             layoutId='underline-signupin' />}
                     </motion.button>
                 )

@@ -26,7 +26,7 @@
 
 .loginPage {
   position: fixed;
-  filter: blur(50px);
+  filter: blur(30px);
   opacity: 0.5;
   animation: animateGlowLoginPage 8s linear infinite;
 }

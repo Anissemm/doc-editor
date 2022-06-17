@@ -23,8 +23,7 @@ const useDocumentLayoutUpdate = () => {
                     `max-width: 210mm !important;
             min-height: 297mm !important;` :
                     `max-width: 297mm !important;
-            min-height: 210mm !important;
-            box-shadow: none !important;`
+            min-height: 210mm !important;`
                 }
          }
         `

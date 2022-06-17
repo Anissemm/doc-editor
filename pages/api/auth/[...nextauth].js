@@ -28,7 +28,7 @@ export default NextAuth({
                 email: { label: "Email", type: "text", placeholder: "Your Email" },
                 password: { label: "Password", type: "password" }
             },
-            async authorize(credentials, req) {
+            async authorize(credentials, _req) {
                 try {
                     const { email, password } = credentials
                     const credentialUser = await auth.signInWithEmailAndPassword(email, password)

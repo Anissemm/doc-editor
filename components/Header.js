@@ -15,10 +15,12 @@ const Header = () => {
 
     useEffect(() => {
         const handleOuterClick = (e) => {
-            if (e.target.closest('[data-account-menu]') == accountMenuRef.current) {
-                setShowAccountSettings(true)
-            } else {
-                setShowAccountSettings(false)
+            if (e.target !== imageRef.current) {
+                if (e.target.closest('[data-account-menu]') == accountMenuRef.current) {
+                    setShowAccountSettings(true)
+                } else {
+                    setShowAccountSettings(false)
+                }
             }
         }
 
@@ -74,8 +76,8 @@ const Header = () => {
                     focus:shadow-md transition-all ${showAccountSettings ? 'z-10 left-10' : ''}}`}
                     src={session.user?.image}
                     alt="Profile image"
-                    // ref={imageRef}
-                    // click={() => { setShowAccountSettings(prev => !prev) }}
+                    ref={imageRef}
+                    onClick={() => { setShowAccountSettings(prev => !prev) }}
                 />
             </div>
         </header>

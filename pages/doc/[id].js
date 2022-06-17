@@ -22,7 +22,7 @@ const Doc = () => {
                 <link rel="stylesheet" href="https://unpkg.com/gutenberg-css@0.6/dist/themes/oldstyle.min.css" media="print" />
             </Head>
             <EditorProvider session={session}>
-                <div className='main-container bg-[#F8F9FA]'>
+                <div className='main-container font-[Poppins] bg-[#F8F9FA]'>
                     <EditorHeader userEmail={session?.user?.email} />
                     <TextEditor />
                 </div>

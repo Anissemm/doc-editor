@@ -41,8 +41,7 @@ const Header = () => {
             <div
                 ref={accountMenuRef}
                 data-account-menu
-                className='accountMenu flex relative items-center'
-            // onClick={() => { setShowAccountSettings(prev => !prev) }}
+                className='accountMenu flex-shrink-0 only:flex relative items-center'
             >
                 <AnimatePresence>
                     {showAccountSettings && <motion.div

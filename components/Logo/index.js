@@ -14,7 +14,7 @@ const variants = {
     })
 }
 
-const Logo = ({ width = 40, height = 20, loginPage = false, srOnly = true, scrollHeight = '', form }) => {
+const Logo = ({ width = 40, height = 20, loginPage = false, srOnly = true }) => {
     return (
         <>
             {loginPage && <motion.div
@@ -37,7 +37,7 @@ const Logo = ({ width = 40, height = 20, loginPage = false, srOnly = true, scrol
                         animate='visible'
                         custom={1}
                         src='/image/logo.png'
-                        className='object-fit relative z-2 w-full' />
+                        className={`relative flex-shrink-0 z-2 ${loginPage ? 'object-contain w-full' : 'w-[40px] -left-5 xs:!left-0 !max-w-none'}`} />
                 </motion.div>
                 <motion.span
                     variants={variants}

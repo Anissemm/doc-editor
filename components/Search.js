@@ -28,7 +28,7 @@ const Search = () => {
                 tabIndex={1}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
-                className='flex relative flex-grow items-center mx-5 px-4 py-0.5 z-2 bg-gray-100 rounded-md md:mx-20 text-gray-400 focus-within:shadow-md  focus-within:z-50 focus-within:bg-gray-100 focus-within:text-gray-500 transition-all'>
+                className='flex font-[Poppins] relative flex-grow items-center mx-5 px-4 py-0.5 z-2 bg-gray-100 rounded-md md:mx-20 text-gray-400 focus-within:shadow-md  focus-within:z-50 focus-within:bg-gray-100 focus-within:text-gray-500 transition-all'>
                 <Icon name="search" color="gray-400" size="2xl" />
                 <input
                     type='search'
@@ -42,7 +42,7 @@ const Search = () => {
                 {focused &&
                     <motion.section
                         {...fadeVariants}
-                        className='fixed pt-[85px] px-16 z-49 top-0 left-0 w-screen h-screen bg-slate-700 bg-opacity-80 px'
+                        className='fixed font-[Poppins] pt-[85px] px-3 sm:!px-16 z-49 top-0 left-0 w-screen h-screen bg-slate-700 bg-opacity-80 px'
                     >
                         {!isCleanInput &&
                             <AnimatePresence>

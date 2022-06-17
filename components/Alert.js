@@ -20,7 +20,7 @@ const AlertCustom = ({ show, setTrigger, callback = () => { }, children, ...prop
     return createPortal(
         (show.status || show.msg === 'Creating...' || show.msg === 'Deleting...') &&
         <AnimatePresence>
-            <motion.div className='fixed bottom-4 left-3 max-w-40 z-[55]'>
+            <motion.div className='fixed font-[Poppins] bottom-4 left-3 max-w-40 z-[55]'>
                 <Alert {...props}>
                     {children}
                 </Alert>

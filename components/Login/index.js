@@ -53,8 +53,8 @@ const Login = ({ isNotEmailVerified }) => {
 
     return (
         <AnimatePresence >
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`font-['Poppins'] py-14 sm:py-24 sm:p-0 sm:grid sm:grid-cols-2 bg-zinc-900  min-h-screen h-${sHeight} sm:grid-rows-1`}>
-                <motion.div className="login-page font-['Poppins'] mb-4 xs:!mb-10 sm:!my-0 font-semibold text-gray-500 flex items-center justify-center">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`font-[Poppins] py-14 sm:py-24 sm:p-0 sm:grid sm:grid-cols-2 bg-zinc-900  min-h-screen h-${sHeight} sm:grid-rows-1`}>
+                <motion.div className="login-page mb-4 xs:!mb-10 sm:!my-0 font-semibold text-gray-500 flex items-center justify-center">
                     <Logo loginPage={true} srOnly={false} width={270} height={135} scrollHeight={sHeight} form={form} />
                 </motion.div>
                 <div>

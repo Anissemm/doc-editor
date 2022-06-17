@@ -180,8 +180,8 @@ const DocList = () => {
             >
                 <Link href={`/doc/${document.id}`}>
                     <a className='flex items-center grow justify-between w-full text-gray-600 pl-3 text-[13px]'>
-                        <span className="truncate max-w-[100px] sm:max-w-[300px]">{data.filename}</span>
-                        <Time className='text-gray-500 font-normal text-[10px]' date={data.modifiedAt ? data.modifiedAt.toMillis() : Date.now()} />
+                        <span className="truncate max-w-[110px] sm:max-w-[300px] whitespace-nowrap text-ellipsis">{data.filename}</span>
+                        <Time className='text-gray-500 font-normal text-[9px] xs:text-[10px]' date={data.modifiedAt ? data.modifiedAt.toMillis() : Date.now()} />
                     </a>
                 </Link>
                 <motion.div className="relative">
@@ -242,10 +242,10 @@ const DocList = () => {
     }) || []
 
     return (
-        <section className='max-w-3xl mx-auto p-4 sm:!p-10 text-sm text-gray-500'>
-            <header className='flex items-center justify-between px-5'>
+        <section className='font-[Poppins] max-w-3xl mx-auto p-4 sm:!p-10 text-sm text-gray-500'>
+            <header className='flex items-center justify-between xs:px-5'>
                 <div className="flex items-center">
-                    <h2 className='font-medium mr-2'>Latest documents</h2>
+                    <h2 className='font-medium mr-2'>My documents</h2>
                     <Button
                         className={`w-6 h-6 !cursor-pointer`}
                         rounded={true}
@@ -304,7 +304,7 @@ const DocList = () => {
                     ref={docListRef}
                     layout
                     transition={{ duration: 0.2 }}
-                    className={`overflow-hidden scrollbar-thin scrollbar-rounded hover:scrollbar-thumb-gray-500 scrollbar-thumb-transparent list-none mt-5 px-5`}>
+                    className={`overflow-hidden scrollbar-thin scrollbar-rounded hover:scrollbar-thumb-gray-500 scrollbar-thumb-transparent list-none mt-5 xs:px-5`}>
                     <AnimatePresence>
                         <LayoutGroup inherit>
                             {docs}

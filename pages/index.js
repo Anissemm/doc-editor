@@ -38,7 +38,7 @@ export default function Home() {
       <Header />
 
       <section>
-        <div className='max-w-3xl mx-auto bg-[#F8F9FA] px-10'>
+        <div className='font-[Poppins] max-w-3xl mx-auto bg-[#F8F9FA] px-10'>
           <div className='flex items-center justify-between py-6'>
             <h2 className='text-gray-700'>Start a new document</h2>
             <Button

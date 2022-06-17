@@ -63,7 +63,7 @@ export default function CreateDocModal({ show, setShow }) {
     }, [documentId])
 
     return (
-        <div>
+        <div className="font-[Poppins]">
             <AnimatePresence>
                 {loading &&
                     <motion.div

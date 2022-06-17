@@ -44,13 +44,13 @@ const Logo = ({ width = 40, height = 20, loginPage = false, srOnly = true }) => 
                     initial='hidden'
                     animate='visible'
                     custom={2}
-                    className={`block z-1 relative -top-5 xs:!top-0 text-4xl xs:!text-5xl select-none ${srOnly ? 'sr-only' : ''}`}>Infinity</motion.span>
+                    className={`block z-1 relative -top-5 xs:!top-0 text-4xl text-gray-300 xs:!text-5xl select-none ${srOnly ? 'sr-only' : ''}`}>Infinity</motion.span>
                 {!srOnly && <motion.small
                     variants={variants}
                     initial='hidden'
                     animate='visible'
                     custom={3}
-                    className="relative italic pt-1 font-light -top-5 xs:!top-0  text-lg xs:!text-xl">A Cool and Tiny Text Editor</motion.small>}
+                    className="relative italic pt-1 font-light select-none -top-5 xs:!top-0 text-gray-300 text-lg xs:!text-xl">A Cool and Tiny Text Editor</motion.small>}
             </motion.h1>
         </>
     )

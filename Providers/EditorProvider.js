@@ -30,9 +30,9 @@ const EditorProvider = ({ children }) => {
     const router = useRouter()
 
     const useContents = useState(new Delta([]))
+    const useFilename = useState('')
     const useQuillState = useState(false)
     const useDocumentLayout = useState(defaultLayout)
-
     const query = db.collection('userDocs').doc(session?.user?.email).collection('docs').doc(router.query.id)
 
     const [document] = useDocumentData(query)
@@ -47,7 +47,8 @@ const EditorProvider = ({ children }) => {
     const editorValue = {
         useContents,
         useQuillState,
-        useDocumentLayout
+        useDocumentLayout,
+        useFilename
     }
 
     return (

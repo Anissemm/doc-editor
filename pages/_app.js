@@ -2,10 +2,7 @@ import '../styles/globals.css'
 import '@material-tailwind/react/tailwind.css'
 import '../styles/styles.css'
 
-
-
 import { SessionProvider } from "next-auth/react"
-import EditorProvider from '../Providers/EditorProvider'
 
 function MyApp({
   Component,
@@ -13,9 +10,7 @@ function MyApp({
 }) {
   return (
     <SessionProvider session={session}>
-      <EditorProvider session={session}>
-        <Component {...pageProps} />
-      </EditorProvider>
+      <Component {...pageProps} />
     </SessionProvider>
   )
 

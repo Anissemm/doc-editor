@@ -72,7 +72,7 @@ export default NextAuth({
             return session
         }
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: 'secret',
     session: { strategy: 'jwt' },
     jwt: {
         secret: 'secret',

@@ -76,7 +76,7 @@ const TextEditor = () => {
                 modifiedAt: serverTimestamp()
             }, { merge: true })
         })
-    }, [quill])
+    }, [quill, query, setContents])
 
     useEffect(() => {
         if (content && quillMounted) {

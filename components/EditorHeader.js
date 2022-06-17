@@ -9,7 +9,6 @@ import InfinityLoader from '../public/svg/InfinityLoader'
 import { serverTimestamp } from 'firebase/firestore'
 import EditorToolbar from './EditorToolbar'
 import { useWindowDimensions } from '../hooks/useWindowDimensions'
-import { EditorContext } from '../Providers/EditorProvider'
 
 const loadVariants = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
 
@@ -17,7 +16,7 @@ function EditorHeader({ userEmail }) {
     const router = useRouter()
     const { width } = useWindowDimensions()
 
-    const [filename, setFilename] = useContext(EditorContext).useFilename
+    const [filename, setFilename] = useState('')
 
     const textBoxSpanRef = useRef(null)
     const textBoxRef = useRef(null)

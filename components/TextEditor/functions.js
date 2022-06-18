@@ -32,8 +32,6 @@ export const registerAttributors = ({ fontSizes, align }) => {
     Quill.register(BackgroundStyleAttributor, true)
     Quill.register(ColorStyleAttributor, true)
     Quill.register(FontStyleAttributor, true)
-
-    console.log(Quill.imports)
 }
 
 export const downloadFile = async (filename, options = {}) => {

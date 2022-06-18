@@ -31,7 +31,7 @@ const TextEditor = () => {
 
         editorSection.innerHTML = ''
 
-        registerAttributors({fontSizes: fontSizesWithPx})
+        registerAttributors({ fontSizes: fontSizesWithPx })
 
         const editorWrapper = document.createElement('div')
         editorSection.append(editorWrapper)
@@ -77,8 +77,9 @@ const TextEditor = () => {
     useEffect(() => {
         query.get().then(doc => {
             const { content } = doc?.data()
+
             if (doc.exists && quillMounted && quill) {
-                const parsed = JSON.parse(content)
+                const parsed = JSON.parse(content || '{ "ops": [] }')
                 setContents(new Delta(parsed.ops))
                 quill.setContents(parsed)
             }

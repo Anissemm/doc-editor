@@ -7,6 +7,7 @@ import { useRouter } from "next/router"
 import { auth } from "../../firebase"
 import { signOut, useSession } from "next-auth/react"
 import { redirect } from "next/dist/server/api-utils"
+import Head from "next/head"
 
 const Switch = dynamic(() => import("./Switch"), { ssr: false })
 const SignInForm = dynamic(() => import("./SignInForm"), { ssr: false })
@@ -26,8 +27,6 @@ const useVerifComplete = () => {
 }
 
 const Login = ({ isNotEmailVerified }) => {
-    const { data: session } = useSession()
-
     const { mode, status, oobCode } = useVerifComplete()
     const { scrollHeight } = useDocumentScrollDimensions()
 
@@ -36,6 +35,11 @@ const Login = ({ isNotEmailVerified }) => {
     const [email, setEmail] = useState('')
     const [signInOutError, setSignInOutError] = useState(null)
     const [confirmResetPassword, setConfirmResetPassword] = useState({ oobCode: null, status: false, msg: 'pending_confirmation' })
+
+    const title = form === 'signup' ? 'Sign Up' :
+        form === 'verification-complete' || form === 'verification-mail-sent' ? 'Email Verification' :
+            form === 'reset-password' ? 'Password Reset' :
+                'Sign In'
 
     useEffect(() => {
         if (status === 'true' && mode === 'verifyEmail') {
@@ -52,29 +56,35 @@ const Login = ({ isNotEmailVerified }) => {
     }, [])
 
     return (
-        <AnimatePresence >
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`font-[Poppins] py-14 sm:py-24 sm:p-0 sm:grid sm:grid-cols-2 bg-zinc-900  min-h-screen h-${sHeight} sm:grid-rows-1`}>
-                <motion.div className="login-page mb-4 xs:!mb-10 sm:!my-0 font-semibold text-gray-500 flex items-center justify-center">
-                    <Logo loginPage={true} srOnly={false} width={270} height={135} scrollHeight={sHeight} form={form} />
+        <>
+            <Head>
+                <title>{title} | Infinity Editor</title>
+            </Head>
+            <AnimatePresence >
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`font-[Poppins] py-14 sm:py-24 sm:p-0 sm:grid sm:grid-cols-2 bg-zinc-900  min-h-screen h-${sHeight} sm:grid-rows-1`}>
+                    <motion.div className="login-page mb-4 xs:!mb-10 sm:!my-0 font-semibold text-gray-500 flex items-center justify-center">
+                        <Logo loginPage={true} srOnly={false} width={270} height={135} scrollHeight={sHeight} form={form} />
+                    </motion.div>
+                    <div>
+                        <LayoutGroup inherit>
+                            {isNotEmailVerified ? <EmailVerificationResent /> :
+                                <>
+                                    <Switch setForm={setForm} form={form} />
+                                    {signInOutError && <SignInOutError error={signInOutError} setError={setSignInOutError} />}
+                                    {form === 'signup' && <SignUpForm setForm={setForm} setEmail={setEmail} setError={setSignInOutError} />}
+                                    {form === 'signin' && <SignInForm setForm={setForm} setError={setSignInOutError} />}
+                                    {form === 'verification-complete' && <EmailVerificationComplete setForm={setForm} />}
+                                    {form === 'verification-mail-sent' && <EmailVerificationSent setForm={setForm} email={email} />}
+                                    {form === 'reset-password' && <ResetPassword setForm={setForm} confirm={confirmResetPassword} setConfirm={setConfirmResetPassword} />}
+                                </>
+                            }
+                        </LayoutGroup>
+                    </div>
                 </motion.div>
-                <div>
-                    <LayoutGroup inherit>
-                        {isNotEmailVerified ? <EmailVerificationResent /> :
-                            <>
-                                <Switch setForm={setForm} form={form} />
-                                {signInOutError && <SignInOutError error={signInOutError} setError={setSignInOutError} />}
-                                {form === 'signup' && <SignUpForm setForm={setForm} setEmail={setEmail} setError={setSignInOutError} />}
-                                {form === 'signin' && <SignInForm setForm={setForm} setError={setSignInOutError} />}
-                                {form === 'verification-complete' && <EmailVerificationComplete setForm={setForm} />}
-                                {form === 'verification-mail-sent' && <EmailVerificationSent setForm={setForm} email={email} />}
-                                {form === 'reset-password' && <ResetPassword setForm={setForm} confirm={confirmResetPassword} setConfirm={setConfirmResetPassword} />}
-                            </>
-                        }
-                    </LayoutGroup>
-                </div>
-            </motion.div>
-        </AnimatePresence>
+            </AnimatePresence>
+        </>
     )
+
 }
 
 export const customSignOut = async (session, redirect = false, callbackUrl) => {

@@ -55,5 +55,4 @@ export const updateDocContent = debounce(async (query, content) => {
         content: JSON.stringify(content),
         modifiedAt: serverTimestamp()
     }, { merge: true })
-    console.log('done')
 } , 2000) 

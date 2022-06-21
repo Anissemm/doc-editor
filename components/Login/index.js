@@ -83,7 +83,7 @@ const Login = ({ isNotEmailVerified }) => {
                     </div>
                     <footer className="absolute bottom-5 left-5 text-xs text-gray-300 italic font-light">
                         Created by Anis "Anissem" Dimassi
-                        <a className="hover:underline" href="https://github.com/Anissemm" target='_blank' alt="My Github"><br />https://github.com/Anissemm</a>
+                        <a className="hover:underline" href="https://github.com/Anissemm" target='_blank' rel="noreferrer" alt="My Github"><br />https://github.com/Anissemm</a>
                         {/* <a className="hover:underline" href="mailto:dima.anissem@gmail.com" alt="Mail me"><br />dima.anissem@gmail.com</a> */}
                     </footer>
                 </motion.div>

@@ -13,19 +13,21 @@ const getEmailTemplate = ({ name, subject, email, message }) => ({
 })
 
 const handleSendEmail = async (req, res) => {
-  const { email, name, subject, message, captcha } = JSON.parse(req.body)
+  const { email, name, subject, message, captcha, unauthenticated } = JSON.parse(req.body)
 
-  const {body: captchaValidation} = await unirest.post('https://www.google.com/recaptcha/api/siteverify')
-    .field('secret', process.env.RECAPTCHA_SECRET)
-    .field('response', captcha)
+  if (unauthenticated) {
+    const { body: captchaValidation } = await unirest.post('https://www.google.com/recaptcha/api/siteverify')
+      .field('secret', process.env.RECAPTCHA_SECRET)
+      .field('response', captcha)
 
-  const captchaSucceeded = captchaValidation.success
+    const captchaSucceeded = captchaValidation.success
 
-  if (!captchaSucceeded) {
-    const errors = captchaValidation['error-codes']
-    return res.status().send({ msg: errors, success: false })
+    if (!captchaSucceeded) {
+      const errors = captchaValidation['error-codes']
+      return res.status().send({ msg: errors, success: false })
+    }
   }
-
+  
   if (!email) return res.status(400).send({ msg: 'Invalid entries', success: false })
 
   const toSend = {

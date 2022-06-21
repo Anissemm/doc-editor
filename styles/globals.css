@@ -238,3 +238,19 @@ select:-webkit-autofill:focus {
   overflow-x: hidden;
 }
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.modal-wrapper > div::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-wrapper.login-page .bg-white {
+  background-color: rgb(24 24 27 / 1);
+}
+
+.modal-wrapper.login-page .contact-input input,
+.modal-wrapper.login-page .contact-input textarea {
+  color: rgb(209 213 219);
+}

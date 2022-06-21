@@ -17,6 +17,7 @@ const EmailVerificationSent = dynamic(() => import("./EmailVerificationSent"), {
 const EmailVerificationResent = dynamic(() => import("./EmailVerificationResent"), { ssr: false })
 const ResetPassword = dynamic(() => import("./PasswordReset"), { ssr: false })
 const SignInOutError = dynamic(() => import("./SignInOutError"), { ssr: false })
+const ContactMeModal = dynamic(() => import("../ContactMeModal"), { ssr: false })
 
 const useVerifComplete = () => {
     const router = useRouter()
@@ -61,7 +62,7 @@ const Login = ({ isNotEmailVerified }) => {
                 <title>{title} | Infinity Editor</title>
             </Head>
             <AnimatePresence >
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`font-[Poppins] py-14 sm:py-24 sm:p-0 sm:grid sm:grid-cols-2 bg-zinc-900  min-h-screen h-${sHeight} sm:grid-rows-1`}>
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={`relative font-[Poppins] py-14 pb-24 sm:py-24 sm:p-0 sm:grid sm:grid-cols-2 bg-zinc-900  min-h-screen h-${sHeight} sm:grid-rows-1`}>
                     <motion.div className="login-page mb-4 xs:!mb-10 sm:!my-0 font-semibold text-gray-500 flex items-center justify-center">
                         <Logo loginPage={true} srOnly={false} width={270} height={135} scrollHeight={sHeight} form={form} />
                     </motion.div>
@@ -80,8 +81,14 @@ const Login = ({ isNotEmailVerified }) => {
                             }
                         </LayoutGroup>
                     </div>
+                    <footer className="absolute bottom-5 left-5 text-xs text-gray-300 italic font-light">
+                        Created by Anis "Anissem" Dimassi
+                        <a className="hover:underline" href="https://github.com/Anissemm" target='_blank' alt="My Github"><br />https://github.com/Anissemm</a>
+                        {/* <a className="hover:underline" href="mailto:dima.anissem@gmail.com" alt="Mail me"><br />dima.anissem@gmail.com</a> */}
+                    </footer>
                 </motion.div>
             </AnimatePresence>
+            <ContactMeModal />
         </>
     )
 

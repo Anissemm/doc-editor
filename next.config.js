@@ -1,4 +1,9 @@
 const nextConfig = {
+  api: {
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+  },
   reactStrictMode: true,
   optimizeFonts: false,
   images: {

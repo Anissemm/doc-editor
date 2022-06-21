@@ -33,15 +33,18 @@ export default NextAuth({
                     const { email, password } = credentials
                     const credentialUser = await auth.signInWithEmailAndPassword(email, password)
                     const { user } = credentialUser
-
-                    return {
-                        email: user.email,
-                        emailVerified: user.emailVerified,
-                        image: user.photoURL,
-                        name: user.displayName,
-                        id: user.uid,
-                        isCredentials: true
+                    
+                    if (user?.email) {
+                        return {
+                            email: user.email,
+                            emailVerified: user.emailVerified,
+                            image: user.photoURL,
+                            name: user.displayName,
+                            id: user.uid,
+                            isCredentials: true
+                        }
                     }
+
 
                 } catch (error) {
                     if (error.hasOwnProperty('code')) {

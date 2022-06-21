@@ -12,7 +12,6 @@
     "@lowfront/firebase-adapter": "^0.0.6",
     "@material-tailwind/react": "0.3.4",
     "@popperjs/core": "^2.11.5",
-    "bcrypt": "^5.0.1",
     "emoji": "^0.3.2",
     "file-saver": "^2.0.5",
     "firebase": "^9.8.1",
@@ -37,9 +36,11 @@
     "react-click-outside-hook": "^1.1.1",
     "react-dom": "18.1.0",
     "react-firebase-hooks": "^5.0.3",
+    "react-google-recaptcha": "^2.1.0",
     "react-popper": "^2.3.0",
     "react-resize-detector": "^7.1.1",
     "react-time-ago": "^7.1.9",
+    "unirest": "^0.6.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

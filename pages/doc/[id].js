@@ -9,6 +9,7 @@ const EditorHeader = dynamic(() => import('../../components/EditorHeader'), { ss
 const TextEditor = dynamic(() => import('../../components/TextEditor'), { ssr: false })
 import EditorProvider from '../../Providers/EditorProvider'
 import { db } from '../../firebase'
+import ContactMeModal from '../../components/ContactMeModal'
 
 const Doc = () => {
     const { data: session, status } = useSession()
@@ -27,6 +28,7 @@ const Doc = () => {
                     <TextEditor />
                 </div>
             </EditorProvider>
+            <ContactMeModal />
         </>
     )
 }

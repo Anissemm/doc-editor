@@ -11,6 +11,7 @@ const Header = dynamic(() => import('../components/Header'), { ssr: false })
 const AlertCustom = dynamic(() => import('../components/Alert'), { ssr: false })
 const DocList = dynamic(import('../components/DocList'), { ssr: false })
 const CreateDocModal = dynamic(() => import('../components/CreateDocModal'), { ssr: false })
+const ContactMeModal = dynamic(() => import('../components/ContactMeModal'), { ssr: false })
 
 export default function Home() {
   const router = useRouter()
@@ -65,6 +66,7 @@ export default function Home() {
         >
           The requested document doesen't exist.
         </AlertCustom>
+        <ContactMeModal />
     </div>
   )
 }

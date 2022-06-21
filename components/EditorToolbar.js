@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { AnimatePresence, m, motion } from 'framer-motion'
-import { Button } from '@material-tailwind/react'
+import Button from '@material-tailwind/react/Button'
 import FileButtons from './TextEditor/FileButtons'
 import LayoutMenu from './TextEditor/LayoutMenu'
 import { EditorContext } from '../Providers/EditorProvider'

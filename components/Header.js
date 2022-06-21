@@ -5,7 +5,7 @@ import Logo from './Logo'
 import { useEffect, useRef, useState } from 'react'
 import { customSignOut } from './Login'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from '@material-tailwind/react'
+import Button from '@material-tailwind/react/Button'
 
 const Header = () => {
     const { data: session } = useSession()

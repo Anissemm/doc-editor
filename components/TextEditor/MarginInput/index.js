@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from "react"
 import styles from './marginInput.module.css'
 import Tooltip from '../../Tooltip'
-import { Icon } from "@material-tailwind/react"
 import { EditorContext } from "../../../Providers/EditorProvider"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"

@@ -8,7 +8,8 @@ import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import InfinityLoader from "../public/svg/InfinityLoader"
 import isEqual from "lodash.isequal"
 import dynamic from "next/dynamic"
-import { Icon, Button } from "@material-tailwind/react"
+import Icon from "@material-tailwind/react/Icon"
+import Button from "@material-tailwind/react/Button"
 import Tooltip from './Tooltip'
 import useDocListWidth from "../hooks/useDocListWidth"
 import { useWindowDimensions } from "../hooks/useWindowDimensions"
@@ -154,7 +155,7 @@ const DocList = () => {
                 setNoMoreDocs(false)
             })
         }
-    }, [documents])
+    }, [documents, firestoreQuery, sort.by, sort.direction])
 
     let docs = documents?.docs.map((document) => {
         const data = document.data()

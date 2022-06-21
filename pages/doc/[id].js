@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import { getSession, useSession } from "next-auth/react"
 import Login from '../../components/Login'
 import dynamic from 'next/dynamic'
-import Delta from 'quill-delta'
 import Head from 'next/head'
 
 const EditorHeader = dynamic(() => import('../../components/EditorHeader'), { ssr: false })
 const TextEditor = dynamic(() => import('../../components/TextEditor'), { ssr: false })
+
 import EditorProvider from '../../Providers/EditorProvider'
 import { db } from '../../firebase'
 import ContactMeModal from '../../components/ContactMeModal'

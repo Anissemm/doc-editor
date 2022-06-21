@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Input, Button } from '@material-tailwind/react'
+import React, { useState } from 'react'
+import Button from '@material-tailwind/react/Button'
+import Input from '@material-tailwind/react/Input'
 import { motion } from 'framer-motion'
 import { signIn } from 'next-auth/react'
 import GoogleSvg from '../../public/svg/google'

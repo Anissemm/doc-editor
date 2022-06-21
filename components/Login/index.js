@@ -5,8 +5,7 @@ import { useDocumentScrollDimensions } from "../../hooks/useWindowDimensions"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { auth } from "../../firebase"
-import { signOut, useSession } from "next-auth/react"
-import { redirect } from "next/dist/server/api-utils"
+import { signOut} from "next-auth/react"
 import Head from "next/head"
 
 const Switch = dynamic(() => import("./Switch"), { ssr: false })
@@ -50,11 +49,11 @@ const Login = ({ isNotEmailVerified }) => {
             setConfirmResetPassword({ oobCode, status: false, msg: 'confirming' })
             setForm('reset-password')
         }
-    }, [status])
+    }, [status, mode, oobCode])
 
     useEffect(() => {
         setSHeight(scrollHeight)
-    }, [])
+    }, [scrollHeight])
 
     return (
         <>

@@ -2,7 +2,8 @@ import { useEffect, useRef, useState, useContext } from 'react'
 import { useDocumentData } from "react-firebase-hooks/firestore"
 import { db } from "../firebase"
 import { useRouter } from 'next/router'
-import { Icon, Button } from '@material-tailwind/react'
+import Button from '@material-tailwind/react/Button'
+import Icon from '@material-tailwind/react/Icon'
 import Logo from './Logo'
 import { motion, AnimatePresence } from 'framer-motion'
 import InfinityLoader from '../public/svg/InfinityLoader'
@@ -37,7 +38,7 @@ function EditorHeader({ userEmail }) {
                 modifiedAt: serverTimestamp()
             })
         }
-    }, [filename])
+    }, [filename, query])
 
     const handleNameChange = (e) => {
         if (e.target.textContent === '') {

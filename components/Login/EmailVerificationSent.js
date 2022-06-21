@@ -1,4 +1,4 @@
-import { Button } from '@material-tailwind/react'
+import Button from '@material-tailwind/react/Button'
 import { motion } from 'framer-motion'
 
 const loginVariants = {

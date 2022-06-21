@@ -1,4 +1,3 @@
-import style from './tooltip.module.css'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { usePopper } from 'react-popper'

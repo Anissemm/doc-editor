@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { downloadFile } from "./functions"
-import { useWindowDimensions } from "../../hooks/useWindowDimensions"
-import { Button, Icon } from "@material-tailwind/react"
+import Button from "@material-tailwind/react/Button"
+import Icon from "@material-tailwind/react/Icon"
 import { EditorContext } from "../../Providers/EditorProvider"
 
 const convertCmToTwip = (value) => {
@@ -15,15 +15,14 @@ const FileButtons = ({ filename }) => {
 
     const DOCX_OPTIONS = {
         orientation: documentLayout.orientation,
-        // margins: {
-        //     top: convertCmToTwip(documentLayout.margins.vertical),
-        //     bottom: convertCmToTwip(documentLayout.margins.vertical),
-        //     left: convertCmToTwip(documentLayout.margins.horizontal),
-        //     right: convertCmToTwip(documentLayout.margins.horizontal),
-        // }
+        margins: {
+            top: convertCmToTwip(documentLayout.margins.vertical),
+            bottom: convertCmToTwip(documentLayout.margins.vertical),
+            left: convertCmToTwip(documentLayout.margins.horizontal),
+            right: convertCmToTwip(documentLayout.margins.horizontal),
+        }
     }
 
-    console.log(DOCX_OPTIONS)
     return (
         <>
             <Button

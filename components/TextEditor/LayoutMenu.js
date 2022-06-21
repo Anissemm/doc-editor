@@ -27,7 +27,7 @@ const LayoutMenu = () => {
             }
         }, { merge: true })
 
-    }, [orientation])
+    }, [orientation, documentLayout, query, setDocumentLayout])
 
     return (
         <>

@@ -2,9 +2,12 @@ import React, { useState, useEffect, useRef } from "react"
 import Modal from "@material-tailwind/react/Modal"
 import ModalBody from "@material-tailwind/react/ModalBody"
 import ModalFooter from "@material-tailwind/react/ModalFooter"
-import { Icon, Input, Button, Textarea } from "@material-tailwind/react"
+import Icon from "@material-tailwind/react/Icon"
+import Input from "@material-tailwind/react/Input"
+import Button from "@material-tailwind/react/Button"
+import Textarea from "@material-tailwind/react/Textarea"
 import { motion, AnimatePresence } from 'framer-motion'
-import { Formik, useFormik } from "formik"
+import { useFormik } from "formik"
 import * as yup from 'yup'
 import InfinityLoader from "../public/svg/InfinityLoader"
 import ReCAPTCHA from "react-google-recaptcha"
@@ -98,7 +101,7 @@ export default function ContactMeModal() {
 
             return () => clearTimeout(timeoutKey)
         }
-    }, [sent])
+    }, [sent, formik])
 
     return (
         <>

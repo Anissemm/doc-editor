@@ -84,7 +84,7 @@ const TextEditor = () => {
                 quill.setContents(parsed)
             }
         })
-    }, [quillMounted, quill])
+    }, [quillMounted, quill, query, setContents])
 
     useEffect(() => {
         if (!router.isFallback) setOverlayCompleted(true)

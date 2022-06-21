@@ -1,4 +1,5 @@
-import { Button, Input } from '@material-tailwind/react'
+import Button from '@material-tailwind/react/Button'
+import Input from '@material-tailwind/react/Input'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import * as yup from 'yup'

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Input, Button } from '@material-tailwind/react'
+import React, { useState } from 'react'
+import Button from '@material-tailwind/react/Button'
+import Input from '@material-tailwind/react/Input'
 import { AnimatePresence, motion } from 'framer-motion'
 import { auth } from '../../firebase'
 import * as yup from 'yup'

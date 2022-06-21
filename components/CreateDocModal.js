@@ -9,7 +9,7 @@ import { db } from '../firebase'
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import useUntitledDocsLength from "../hooks/useUntitledDocsLength"
-import { Checkbox } from "@material-tailwind/react"
+import Checkbox from "@material-tailwind/react/Checkbox"
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from "next/dynamic"
 
@@ -60,7 +60,7 @@ export default function CreateDocModal({ show, setShow }) {
         if (documentId && createAndOpen) {
             router.push(`/doc/${documentId}`)
         }
-    }, [documentId])
+    }, [documentId, createAndOpen, router])
 
     return (
         <div className="font-[Poppins]">

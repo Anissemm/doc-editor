@@ -231,7 +231,7 @@ export default function ContactMeModal() {
                                     size="sm"
                                     ripple="light"
                                     disabled={formik.isSubmitting}
-                                    className='flex items-center justify-center !w-66 !h-30 ml-1'
+                                    className='flex !bg-green-700 hover:!bg-green-500 items-center justify-center !w-66 !h-30 ml-1'
                                 >
                                     Send
                                 </Button>

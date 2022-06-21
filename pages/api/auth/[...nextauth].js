@@ -75,10 +75,10 @@ export default NextAuth({
             return session
         }
     },
-    secret: 'secret',
+    secret: process.env.NEXTAUTH_SECRET,
     session: { strategy: 'jwt' },
     jwt: {
-        secret: 'secret',
+        secret: process.env.NEXTAUTH_SECRET,
         encrypted: true
     },
     adapter: FirestoreAdapter(db)

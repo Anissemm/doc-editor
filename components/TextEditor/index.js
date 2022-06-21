@@ -64,7 +64,7 @@ const TextEditor = () => {
             const content = quill.getContents()
 
             setContents(content)
-            updateDocContent(query, content, 1500)
+            updateDocContent(query, content)
         }
 
 
@@ -72,7 +72,7 @@ const TextEditor = () => {
 
         return () => { quill.off('text-change', instantTypeSaveHandler) }
 
-    }, [quill, query, setContents])
+    }, [quill])
 
     useEffect(() => {
         query.get().then(doc => {
@@ -84,7 +84,7 @@ const TextEditor = () => {
                 quill.setContents(parsed)
             }
         })
-    }, [quillMounted, quill, query, setContents])
+    }, [quillMounted, quill])
 
     useEffect(() => {
         if (!router.isFallback) setOverlayCompleted(true)

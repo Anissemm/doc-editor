@@ -48,9 +48,9 @@ export const setUndo = (value) => {
     console.log(value)
 }
 
-export const updateDocContent = debounce(async (query, content) => {
-    await query.set({
+export const updateDocContent = debounce((query, content) => {
+    query.set({
         content: JSON.stringify(content),
         modifiedAt: serverTimestamp()
     }, { merge: true })
-} , 1000) 
+} , 3000) 

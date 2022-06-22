@@ -1,6 +1,5 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
-import YandexProvider from 'next-auth/providers/yandex'
 import CredentialsProvider from "next-auth/providers/credentials";
 import { FirestoreAdapter } from "@lowfront/firebase-adapter"
 import { db, auth } from "../../../firebase"
@@ -17,10 +16,6 @@ export default NextAuth({
                     response_type: "code"
                 }
             }
-        }),
-        YandexProvider({
-            clientId: process.env.YANDEX_CLIENT_ID,
-            clientSecret: process.env.YANDEX_CLIENT_SECRET
         }),
         CredentialsProvider({
             name: 'Using Email & Password',

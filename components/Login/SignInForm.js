@@ -6,6 +6,7 @@ import { signIn } from 'next-auth/react'
 import GoogleSvg from '../../public/svg/google'
 import YandexSvg from '../../public/svg/yandex'
 import OrBar from './OrBar'
+import GithubLogo from '../../public/svg/github'
 
 const loginVariants = {
     hidden: i => ({
@@ -124,28 +125,12 @@ const SignInForm = ({ setForm, setError }) => {
                 rounded={false}
                 iconOnly={false}
                 ripple="light"
-                className='mt-3 bg-gray-700 shadow-sm'
+                className='mt-3 bg-gray-700 shadow-sm min-w-[220px]'
                 aria-label='Sing in with Google'
                 onClick={() => { signIn('google') }}
             >
                 Sign in with
                 <GoogleSvg className="w-24 h-9" />
-            </MotionButton>
-            <MotionButton
-                variants={loginVariants}
-                custom={2}
-                color='blueGray'
-                buttonType="filled"
-                size="sm"
-                rounded={false}
-                iconOnly={false}
-                ripple="light"
-                className='mt-3 bg-gray-700 shadow-sm'
-                aria-label='Sing in with Yandex'
-                onClick={() => { signIn('yandex') }}
-            >
-                Sign in with
-                <YandexSvg className="w-24 h-9" />
             </MotionButton>
         </motion.div>
     )

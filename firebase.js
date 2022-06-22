@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
 
-const firebaseConfig = {
+let firebaseConfig = {
     apiKey: "AIzaSyDuVGQM9BEg-Edo8Suzxkw6MjgxD7Eclm0",
     authDomain: "document-editor-e9aa3.firebaseapp.com",
     projectId: "document-editor-e9aa3",
@@ -19,3 +19,8 @@ const app = !firebase.apps.length
 export const auth = app.auth()
 
 export const db = app.firestore()
+
+// if (location.hostname === 'localhost') {
+//     db.useEmulator('localhost', 8080)
+//     auth.useEmulator("http://localhost:9099");
+// }

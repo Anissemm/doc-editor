@@ -21,7 +21,7 @@ const contactFormSchema = yup.object({
 })
 
 export default function ContactMeModal() {
-    const { data: _session, status } = useSession()
+    const { data: session, status } = useSession()
     const [show, setShow] = useState(false)
     const [sent, setSent] = useState(false)
     const [error, setError] = useState('')
@@ -30,8 +30,8 @@ export default function ContactMeModal() {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
-            name: '',
+            email: status === 'authenticated' ? session?.user?.email : '',
+            name: status === 'authenticated' ? session?.user?.name : '',
             subject: '',
             message: ''
         },

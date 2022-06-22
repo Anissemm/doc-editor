@@ -16,10 +16,10 @@ const FileButtons = ({ filename }) => {
     const DOCX_OPTIONS = {
         orientation: documentLayout.orientation,
         margins: {
-            top: convertCmToTwip(documentLayout.margins.vertical),
-            bottom: convertCmToTwip(documentLayout.margins.vertical),
-            left: convertCmToTwip(documentLayout.margins.horizontal),
-            right: convertCmToTwip(documentLayout.margins.horizontal),
+            top: `${documentLayout.margins.vertical}cm`,
+            bottom: `${documentLayout.margins.vertical}cm`,
+            left: `${documentLayout.margins.horizontal}cm`,
+            right: `${documentLayout.margins.horizontal}cm`,
         }
     }
 

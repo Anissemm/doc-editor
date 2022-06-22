@@ -38,7 +38,7 @@ function EditorHeader({ userEmail }) {
                 modifiedAt: serverTimestamp()
             })
         }
-    }, [filename, query])
+    }, [filename])
 
     const handleNameChange = (e) => {
         if (e.target.textContent === '') {

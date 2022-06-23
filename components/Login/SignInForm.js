@@ -46,7 +46,6 @@ const SignInForm = ({ setForm, setError }) => {
                     const result = await signIn('credentials', { redirect: false, email, password })
 
                     if (result.error) {
-                        console.log(result)
                         setError(result.error)
                     }
 

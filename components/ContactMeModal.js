@@ -12,6 +12,7 @@ import * as yup from 'yup'
 import InfinityLoader from "../public/svg/InfinityLoader"
 import ReCAPTCHA from "react-google-recaptcha"
 import { useSession } from "next-auth/react"
+import { auth } from '../firebase'
 
 const contactFormSchema = yup.object({
     email: yup.string().email('Please enter a valid email address').required('Email is required'),
@@ -27,7 +28,6 @@ export default function ContactMeModal() {
     const [error, setError] = useState('')
 
     const recaptchaRef = useRef()
-
     const formik = useFormik({
         initialValues: {
             email: status === 'authenticated' ? session?.user?.email : '',
@@ -38,7 +38,7 @@ export default function ContactMeModal() {
         validationSchema: contactFormSchema,
         validateOnBlur: true,
         onSubmit: async (values, { setSubmitting }) => {
-            let data = {...values, unauthenticated: false}
+            let data = { ...values, unauthenticated: false }
             try {
                 if (status === 'unauthenticated') {
                     const captcha = await recaptchaRef.current.executeAsync()
@@ -239,6 +239,7 @@ export default function ContactMeModal() {
                         </ModalFooter>
                         {status === 'unauthenticated' && <ReCAPTCHA
                             ref={recaptchaRef}
+                            theme='dark'
                             size="invisible"
                             badge="bottomleft"
                             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_ID}

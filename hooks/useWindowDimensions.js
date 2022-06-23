@@ -59,7 +59,6 @@ export const useDocumentScrollDimensions = () => {
     useEffect(() => {
         if (hasDocument) {
             const handleResize = () => {
-                console.log(getDocumentScrollDimensions(), document.documentElement)
                 setDocumentScrollDimensions(getDocumentScrollDimensions());
             }
 

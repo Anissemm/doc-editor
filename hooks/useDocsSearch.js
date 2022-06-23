@@ -35,7 +35,6 @@ const useSearch = () => {
                 const docs = docsSnapshot?.docs.reduce((results, doc) => {
                     const data = doc.data()
                     if (regexp.test(data?.filename)) {
-                        console.log(doc)
                         results.push({ ...data, id: doc.id })
                     }
                     return results

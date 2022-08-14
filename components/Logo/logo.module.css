@@ -26,9 +26,15 @@
 
 .loginPage {
   position: fixed;
-  filter: blur(30px);
+  filter: blur(100px);
   opacity: 0.5;
   animation: animateGlowLoginPage 8s linear infinite;
+}
+
+@media screen and (min-width: 1536px) {
+  .loginPage {
+    filter: blur(200px);
+  }
 }
 
 @keyframes animateGlow {

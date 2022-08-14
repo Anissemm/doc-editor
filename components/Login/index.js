@@ -5,7 +5,7 @@ import { useDocumentScrollDimensions } from "../../hooks/useWindowDimensions"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { auth } from "../../firebase"
-import { signOut} from "next-auth/react"
+import { signOut } from "next-auth/react"
 import Head from "next/head"
 
 const Switch = dynamic(() => import("./Switch"), { ssr: false })
@@ -65,21 +65,24 @@ const Login = ({ isNotEmailVerified }) => {
                     <motion.div className="login-page mb-4 xs:!mb-10 sm:!my-0 font-semibold text-gray-500 flex items-center justify-center">
                         <Logo loginPage={true} srOnly={false} width={270} height={135} scrollHeight={sHeight} form={form} />
                     </motion.div>
-                    <div>
-                        <LayoutGroup inherit>
-                            {isNotEmailVerified ? <EmailVerificationResent /> :
-                                <>
-                                    <Switch setForm={setForm} form={form} />
-                                    {signInOutError && <SignInOutError error={signInOutError} setError={setSignInOutError} />}
-                                    {form === 'signup' && <SignUpForm setForm={setForm} setEmail={setEmail} setError={setSignInOutError} />}
-                                    {form === 'signin' && <SignInForm setForm={setForm} setError={setSignInOutError} />}
-                                    {form === 'verification-complete' && <EmailVerificationComplete setForm={setForm} />}
-                                    {form === 'verification-mail-sent' && <EmailVerificationSent setForm={setForm} email={email} />}
-                                    {form === 'reset-password' && <ResetPassword setForm={setForm} confirm={confirmResetPassword} setConfirm={setConfirmResetPassword} />}
-                                </>
-                            }
-                        </LayoutGroup>
+                    <div className="2xl:mt-48">
+                        <div>
+                            <LayoutGroup inherit >
+                                {isNotEmailVerified ? <EmailVerificationResent /> :
+                                    <>
+                                        <Switch setForm={setForm} form={form} />
+                                        {signInOutError && <SignInOutError error={signInOutError} setError={setSignInOutError} />}
+                                        {form === 'signup' && <SignUpForm setForm={setForm} setEmail={setEmail} setError={setSignInOutError} />}
+                                        {form === 'signin' && <SignInForm setForm={setForm} setError={setSignInOutError} />}
+                                        {form === 'verification-complete' && <EmailVerificationComplete setForm={setForm} />}
+                                        {form === 'verification-mail-sent' && <EmailVerificationSent setForm={setForm} email={email} />}
+                                        {form === 'reset-password' && <ResetPassword setForm={setForm} confirm={confirmResetPassword} setConfirm={setConfirmResetPassword} />}
+                                    </>
+                                }
+                            </LayoutGroup>
+                        </div>
                     </div>
+
                     <footer className="absolute bottom-5 left-5 text-xs text-gray-300 italic font-light">
                         Created by Anis "Anissem" Dimassi
                         <a className="hover:underline" href="https://github.com/Anissemm" alt="My Github"><br />https://github.com/Anissemm</a>
